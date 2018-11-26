@@ -6,7 +6,7 @@ $animalName = $_POST["animalName"];
 $ownerName = $_POST["animalOwner"];
 $VAT = $_POST["VAT"];
 
-//CHECK IF CLIENT EXISTS
+//CHECK IF CLIENT kmnEXISTS
 
 //Prepare sql query to get, from the database, the client with the VAT obtained from the homepage
 $stmt = $conn->prepare("select * from client where VAT=?;");
