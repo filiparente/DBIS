@@ -18,7 +18,7 @@
         $ownerName=$row["ownerName"];
     }
     echo "</table><br><br><br>";
-    echo "Create new consult for animal ".$_GET["animal"]." with the owner ".$ownerName.":";
+    echo "Create new consult for animal ".$_GET["animal"]." with the owner ".$_GET["owner"].":";
 
 echo'
     <form login method="POST" action="createConsult.php?animalName='.$_GET["animal"].'&ownerName='.$_GET["owner"].'">

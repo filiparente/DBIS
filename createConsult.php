@@ -15,7 +15,7 @@
         $ownerVAT=$row["ownerVAT"];
     }
     $date=date("Y-m-d h:i:s");
-    //echo $animalName, $ownerVAT,  $_POST['S'], $_POST['O'], $_POST['A'], $_POST['P'], $clientVAT, $vetVAT, $_POST['weight'];
+    
     $sql="insert into consult (name,VAT_owner, date_timestamp,s,o,a,p,VAT_client,VAT_vet,weight) values (?,?,?,?,?,?,?,?,?,?);";
     $stmt=$conn->prepare($sql);
     $stmt->bind_param("sdsssssddd",$animalName,$ownerVAT,$date,$_POST["S"],$_POST["O"],$_POST["A"],$_POST["P"],$clientVAT,$vetVAT,$_POST["weight"]);

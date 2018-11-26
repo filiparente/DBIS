@@ -6,7 +6,7 @@ $animalName = $_POST["animalName"];
 $ownerName = $_POST["animalOwner"];
 $VAT = $_POST["VAT"];
 
-//CHECK FOR CLIENT
+//CHECK IF CLIENT EXISTS
 
 //Prepare sql query to get, from the database, the client with the VAT obtained from the homepage
 $stmt = $conn->prepare("select * from client where VAT=?;");
@@ -43,6 +43,7 @@ if($stmt->num_rows == 0){
     echo "</table><br><br><br>";
 }
 
+
 //Get, from the database, the complete name of the owner and the animal species from the animal's name and (part of) the owner name
 $sql = "select a.name animalName, p.name personName, a.species_name speciesName from animal a
 join person p on a.name='".$animalName."' and a.VAT=p.VAT and p.name like '%".$ownerName."%';";
@@ -55,6 +56,7 @@ if($result == false){
 if($result->num_rows == 0){
     echo "There are no correspondences between animal name and owner name<br>";
     echo "Regist animal: <br>";
+
     echo '<form action="registanimal.php" method="POST">
     <label for="registerAnimalName">Animal name</label>
     <input type="text" name="registerAnimalName"><br>
@@ -62,6 +64,8 @@ if($result->num_rows == 0){
     <input type="text" name="registerAnimalColour"><br>
     <label for="registerAnimalSpecies">Animal species</label>
     <input type="text" name="registerAnimalSpecies"><br>
+    <label for="VAT">Client (Owner) VAT</label>
+    <input type="text" name="VAT"><br>
     <label for="registerAnimalGender">Animal gender</label>
     <input type="text" name="registerAnimalGender"><br>
     <label for="registerAnimalBirth">Animal birth year</label>
