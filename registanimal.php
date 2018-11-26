@@ -16,11 +16,8 @@ $VAT = $_POST["VAT"];
 
 $registerAnimalAge = $curr_year-$registerAnimalBirth;
 
-$sql = "INSERT INTO `animal`(name, VAT, species_name, colour, gender, birth_year, age) VALUES ('".$registerAnimalName."', '".$VAT."', '".$registerAnimalSpecies."', '".$registerAnimalColour."', '".$registerAnimalGender."', '".$registerAnimalBirth."', '".$registerAnimalAge."');";
-if ($conn->query($sql) === TRUE) {
-    echo "New record created successfully";
-} else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
-}
-
+$sql="INSERT INTO animal(name, VAT, species_name, colour, gender, birth_year, age) VALUES (?,?,?,?,?,?,?);";
+$stmt=$conn->prepare($sql);
+$stmt->bind_param("sdsssdd",$registerAnimalName,$VAT,$registerAnimalSpecies,$registerAnimalColour,$registerAnimalGender,$registerAnimalBirth,$registerAnimalAge);
+$stmt->execute();
 ?>
