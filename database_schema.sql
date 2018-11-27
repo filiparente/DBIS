@@ -28,10 +28,37 @@ create table person (
 );
 
 create table phone_number (
-    VAT int,
-    phone int primary key,
+    VAT int not NULL,
+    phone int not NULL,
+    primary key (VAT, phone),
     foreign key (VAT) references person(VAT) on delete cascade
 );
+
+-- TRIGGER OPTION 1
+drop trigger if exists phone_number_check;
+DELIMITER $$
+create trigger phone_number_check before insert on phone_number
+for each row
+begin
+if new.phone in (select phone from phone_number) then signal sqlstate '45000' set message_text = "Sorry, there's already one individual stored in the database with the same phone number. Choose another one.";
+end if;
+end$$
+DELIMITER ;
+
+-- TRIGGER OPTION 2
+-- drop trigger if exists phone_number_check;
+-- DELIMITER $$
+-- create trigger phone_number_check before insert on phone_number
+-- for each row
+-- begin
+-- if new.phone in (select phone from phone_number) then set new.phone = NULL;
+-- end if;
+-- end$$
+-- DELIMITER ;
+
+-- FOR TESTING PURPOSES:
+-- insert into person values (138,"Mimi Grey","North Middle River Lene","Laufel","2000-004");
+-- insert into phone_number values (138, 900000119);
 
 create table client (
     VAT int primary key,
