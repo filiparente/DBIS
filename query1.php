@@ -9,6 +9,9 @@ $animalName = $_POST["animalName"];
 $ownerName = $_POST["animalOwner"];
 $VAT = $_POST["VAT"];
 
+// Store client VAT in the session (to be used in getAnimal.php)
+$_SESSION["clientVAT"] = $VAT;
+
 //CHECK IF CLIENT EXISTS
 
 //Prepare sql query to get, from the database, the client with the VAT obtained from the homepage

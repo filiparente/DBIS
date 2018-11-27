@@ -1,6 +1,9 @@
 <?php
     include_once "conn.php";
 
+    // Start session with query1.php
+    session_start();
+
     $sql = 'select c.name animalName, p1.name ownerName, p2.name clientName, p3.name vetName, c.date_timestamp date, c.VAT_owner VAT_owner, c.VAT_client VAT_client, c.VAT_vet VAT_vet from consult c, person p1, person p2, person p3 where c.name=? and p1.VAT=c.VAT_owner and p1.name=? and p2.VAT=c.VAT_client and p3.VAT=c.VAT_vet;';
     $stmt = $conn->prepare($sql);
 
@@ -37,14 +40,11 @@
 
     //Display form to create a consult for that animal and owner and go to createConsult.php      
     echo'   <form login method="POST" action="createConsult.php?animalName='.$_GET["animal"].'&ownerName='.$_GET["owner"].'">
-            <label for="clientName">Client name:</label>
-            <input type="text" name="clientName" id="clientName">
-            <br>
-            <label for="veterinaryName">Veterinary name:</label>
-            <input type="text" name="veterinaryName" id="veterinaryName">
+            <label for="veterinaryVAT">Veterinary VAT:</label>
+            <input type="number" name="veterinaryVAT" id="veterinaryVAT">
             <br>
             <label for="weight">Weight:</label>
-            <input type="text" name="weight" id="weight">
+            <input type="number" name="weight" id="weight">
             <br>
             <label for="S">S:</label>
             <input type="text" name="S" id="S">
@@ -58,7 +58,10 @@
             <label for="P">P:</label>
             <input type="text" name="P" id="P">
             <br>
+            <label for="DiagnosticCodes">Diagnostic codes: (for multiple diagnosis use the following format: [nº diagnosis1+nºdiagnosis2+...] Ex.: 3+5+14)</label>
+            <input type="text" name="DiagnosticCodes" id="DiagnosticCodes"/>
+            <br>
             <input type="submit" name="createConsult" value="Create consult">
-        </form>';
+            </form>';
 
 ?>
