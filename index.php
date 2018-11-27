@@ -31,11 +31,11 @@
     </form>
     <br>
     <?php
-        if(isset($_SESSION["number"])){
-            echo "Number of consults: ";
-            echo $_SESSION["number"];
-            unset($_SESSION["number"]);
-        }
+    //    if(isset($_SESSION["number"])){
+    //        echo "Number of consults with ".$_POST["animalName"]." in ".$_POST["year"].": ";
+    //        echo $_SESSION["number"];
+    //        unset($_SESSION["number"]);
+    //    }
     ?>
 </body>
 </html>
