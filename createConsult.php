@@ -35,6 +35,7 @@
     $row = $result->fetch_assoc();
     $ownerVAT = $row["VAT"];
     
+    // INSERT CONSULT FIRST
     
     $sql = "INSERT INTO consult (name,VAT_owner, date_timestamp,s,o,a,p,VAT_client,VAT_vet,weight) values (?,?,?,?,?,?,?,?,?,?);";
     $stmt = $conn->prepare($sql);
@@ -44,10 +45,34 @@
     
     if($result === FALSE){
         echo('ERROR Consult was not registered. Execute() failed: ' . htmlspecialchars($stmt->error));
+        echo('<br>');
     }else{
         echo('Consult registered in the database successfully!');
+        echo('<br>');
     }
 
+    // INSERT CONSULT DIAGNOSIS AFTER
+    
+    $diagnosis_str = $_POST["DiagnosticCodes"];
+    $diagnosis_array = explode("+",$diagnosis_str);
+
+    foreach ($diagnosis_array as $diagnosis){
+
+        //Insert each diagnosis into consult_diagnosis
+        $sql = "INSERT INTO consult_diagnosis (code, name, VAT_owner, date_timestamp) values (?,?,?,?);";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("dsds", $diagnosis, $animalName, $ownerVAT, $date);
+        $result = $stmt->execute();
+
+        if($result === FALSE){
+            echo('ERROR Consult diagnosis was not registered. Execute() failed: ' . htmlspecialchars($stmt->error));
+            echo('<br>');
+        }else{
+            echo('Consult diagnosis registered in the database successfully!');
+            echo('<br>');
+        }
+    
+    }
     //header("Location: getAnimal.php");
     echo '<form action="index.php">
       <input type="submit" name="Go back" value="Go back to homepage">
