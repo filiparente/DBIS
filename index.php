@@ -1,5 +1,6 @@
 <?php
     include_once "conn.php";
+    session_start();
 ?>
 
 <!DOCTYPE html>
@@ -20,5 +21,21 @@
         <input type="text" name="animalOwner" id="animalOwner">
         <input type="submit" name="query1" value="Check">
     </form>
-    </body>
+    <br>
+    <form login method="POST" action="consultNumber.php">
+        <label for="animalName">Animal name:</label>
+        <input type="text" name="animalName" id="animalName">
+        <label for="year">Year:</label>
+        <input type="text" name="year" id="year">
+        <input type="submit" name="consultNumber" value="Number of consults">
+    </form>
+    <br>
+    <?php
+        if(isset($_SESSION["number"])){
+            echo "Number of consults: ";
+            echo $_SESSION["number"];
+            unset($_SESSION["number"]);
+        }
+    ?>
+</body>
 </html>
