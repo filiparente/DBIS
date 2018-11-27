@@ -64,4 +64,7 @@
             <input type="submit" name="createConsult" value="Create consult">
             </form>';
 
+echo '<form action="index.php">
+      <input type="submit" name="Go back" value="Go back to homepage">
+      ';
 ?>

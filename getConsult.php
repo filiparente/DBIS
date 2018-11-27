@@ -61,5 +61,9 @@
         }
         echo "</table><br><br><br>";
     }
+
+    echo '<form action="index.php">
+      <input type="submit" name="Go back" value="Go back to homepage">
+      ';
 ?>
     

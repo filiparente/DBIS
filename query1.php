@@ -58,11 +58,6 @@ if($stmt->num_rows == 0){
 
     $result = $conn->query($sql);
 
-    // Query error
-    if($result == false){
-        echo "false";
-    }
-
     //If the result has no rows, it means that there are no correspondences between the animal name and the (portion of) owner name provided
     if($result->num_rows == 0){
         echo "There are no correspondences between animal name and owner name<br>";
@@ -74,6 +69,7 @@ if($stmt->num_rows == 0){
         $_SESSION["registerAnimalName"] = $animalName;
         $_SESSION["registerVAT"] = $VAT;
 
+
         //Display form to register animal with the client as the owner and go to registanimal.php
         echo '<form action="registanimal.php" method="POST">
         <label for="registerAnimalColour">Animal colour</label>
@@ -84,8 +80,12 @@ if($stmt->num_rows == 0){
         <input type="text" name="registerAnimalGender"><br>
         <label for="registerAnimalBirth">Animal birth year</label>
         <input type="text" name="registerAnimalBirth"><br>
-        <input type="submit" name="registerAnimal" value="Register animal">
-        ';
+        
+        <button formaction="registanimal.php">Regist animal</button>
+        <button formaction="index.php">Go back to homepage</button>
+        ';        
+
+
     } else {
         //Display animal name and owner name (or portion of)
         echo "Animal name ".$animalName." with owner name ".$ownerName.":";
@@ -100,6 +100,12 @@ if($stmt->num_rows == 0){
             echo "<th>".$row["personName"]."</th></tr>";
         }
         echo "</table><br><br><br>";
-    }
 
+        echo '<form action="index.php">
+            <input type="submit" name="Go back" value="Go back to homepage">
+            ';
     }
+    
+    
+    }
+    
