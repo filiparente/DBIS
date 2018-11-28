@@ -9,12 +9,35 @@
     $VAT_vet = $_GET["VAT_vet"];
     $VAT_client = $_GET["VAT_client"];
 
+    $date = $_GET["date"];
+
     $flag_indicators = FALSE;
 
-    // The number of the procedure, assuming that a consult can only register one test we have also assumed that it can only have 1 procedure... :/
-    $num = 1;
+    $sql = "select max(num) as max_procedure from procedures where name=? and VAT_owner=? and date_timestamp=?;";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sds", $animalName, $VAT_owner, $date);
+    $result = $stmt->execute();
 
-    $date = $_GET["date"];
+    if($result === FALSE){
+        echo('ERROR couldnt access procedures num. Execute() failed: ' . htmlspecialchars($stmt->error));
+        echo('<br>');
+    }else{
+        $result = $stmt->get_result();
+
+        if($result->num_rows == 0){
+            $num = 1; echo($num);
+        }else{
+            echo('entrei');
+            echo($animalName);echo('<br>');
+            echo($VAT_owner);echo('<br>');
+            echo($date);echo('<br>');
+            $row = $result->fetch_assoc();
+            echo($row["max_procedure"]); echo('<br>');
+            $num = $row["max_procedure"]+1;
+            echo($num); echo('<br>');
+        }
+    }
+    
     while(TRUE){
         if(isset($_POST["VAT_assist"])){
             $VAT_assist = $_POST["VAT_assist"];
