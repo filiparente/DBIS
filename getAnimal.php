@@ -66,6 +66,21 @@
             <input type="submit" name="createConsult" value="Create consult">
             </form>';
 
+    $sql = 'select name, code from diagnosis_code;';
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    echo "<table border='1'><tr><th>Diagnostic code:</th><th>Diagnostic name:</th></tr>";
+    
+    //Present diagnostic codes and diagnosis names in a auxiliar table to help the user to introduce the diagnosis codes for a given consult
+    while($row = $result->fetch_assoc()){
+        //Display
+        echo "<tr><th>".$row["code"]."</th>";
+        echo "<th>".$row["name"]."</th></tr>";
+    }
+    echo "</table><br><br><br>";
+
 echo '<form action="index.php">
       <input type="submit" name="Go back" value="Go back to homepage">
       ';

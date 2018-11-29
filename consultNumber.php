@@ -5,12 +5,12 @@ include_once "conn.php";
 session_start();
 
 // Function to get the number of consults of a given animal within a given year
-function consultNumber($animalName, $year, $conn) {
+function consultNumber($animalName, $VAT_owner, $year, $conn) {
 
     // Query to count the number of consults of that animal in that year
-    $sql = "select count(*) number from consult where name=? and year(date_timestamp)=?;";
+    $sql = "select count(*) number from consult where name=? and VAT_owner=? and year(date_timestamp)=?;";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ss", $animalName, $year);
+    $stmt->bind_param("sss", $animalName, $VAT_owner, $year);
     $stmt->execute();
     $result = $stmt->get_result();
 

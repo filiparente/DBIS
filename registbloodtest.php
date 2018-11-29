@@ -50,7 +50,7 @@
             //name,VAT_owner,date_timestamp: FK(consult)
             //RI: procedure cannot simultaneously be radiography, tests, and/or surgical
 
-            $sql = "INSERT INTO procedures(name, VAT_owner, date_timestamp, num, description) values (?,?,?,?,'no description for now');";
+            $sql = "INSERT INTO procedures(name, VAT_owner, date_timestamp, num, description) values (?,?,?,?,'blood test');";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("sdsd", $animalName, $VAT_owner, $date, $num);
             $result = $stmt->execute();
