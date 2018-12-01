@@ -39,32 +39,50 @@
 
     //Option to create a new consult for that animal and owner
     echo "Create new consult for animal ".$_GET["animal"]." with the owner ".$_GET["owner"].":";
-
-    //Display form to create a consult for that animal and owner and go to createConsult.php      
-    echo'   <form login method="POST" action="createConsult.php?animalName='.$_GET["animal"].'&ownerName='.$_GET["owner"].'">
-            <label for="veterinaryVAT">Veterinary VAT:</label>
-            <input type="number" name="veterinaryVAT" id="veterinaryVAT">
-            <br>
-            <label for="weight">Weight:</label>
-            <input type="number" name="weight" id="weight">
-            <br>
-            <label for="S">S:</label>
-            <input type="text" name="S" id="S">
-            <br>
-            <label for="O">O:</label>
-            <input type="text" id="O" name="O">
-            <br>
-            <label for="A">A:</label>
-            <input type="text" name="A" id="A">
-            <br>
-            <label for="P">P:</label>
-            <input type="text" name="P" id="P">
-            <br>
-            <label for="DiagnosticCodes">Diagnostic codes: (for multiple diagnosis use the following format: [nº diagnosis1+nºdiagnosis2+...] Ex.: 3+5+14)</label>
-            <input type="text" name="DiagnosticCodes" id="DiagnosticCodes"/>
-            <br>
-            <input type="submit" name="createConsult" value="Create consult">
-            </form>';
+    ?>
+    <html>
+    <body>
+        <!--Display form to create a consult for that animal and owner and go to createConsult.php  -->    
+        <?php echo'<form login method="POST" action="createConsult.php?animalName='.$_GET["animal"].'&ownerName='.$_GET["owner"].'"'?>
+        <label for="veterinaryVAT">Veterinary VAT:</label>
+        <select name="veterinaryVAT">
+        <?php
+            $sql = 'select VAT from veterinary;';
+            $stmt = $conn->prepare($sql);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
+            while ($row = $result->fetch_assoc()) {
+                $code = $row["VAT"];
+                echo("<option value=\"$code\">$code</option>");
+            }
+            
+        ?>    
+        </select>
+        <br>
+        <label for="weight">Weight:</label>
+        <input type="number" name="weight" id="weight">
+        <br>
+        <label for="S">S:</label>
+        <input type="text" name="S" id="S">
+        <br>
+        <label for="O">O:</label>
+        <input type="text" id="O" name="O">
+        <br>
+        <label for="A">A:</label>
+        <input type="text" name="A" id="A">
+        <br>
+        <label for="P">P:</label>
+        <input type="text" name="P" id="P">
+        <br>
+        <label for="DiagnosticCodes">Diagnostic codes: (for multiple diagnosis use the following format: [nº diagnosis1+nºdiagnosis2+...] Ex.: 3+5+14)</label>
+        <input type="text" name="DiagnosticCodes" id="DiagnosticCodes"/>
+        <br>
+        <input type="submit" name="createConsult" value="Create consult">
+        </form>
+    </body> 
+</html>
+<?php
 
     $sql = 'select name, code from diagnosis_code;';
     $stmt = $conn->prepare($sql);

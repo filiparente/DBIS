@@ -33,8 +33,6 @@ if(!isset($_POST["animalName"]) || empty($_POST["animalName"])){
     //If the result has no rows, it means that the VAT is not in the database, so the client is not registered
     if($stmt->num_rows == 0){
         echo "VAT not registered as client";
-        
-        //REGISTER AS A PERSON + CLIENT ???
 
     } else {
 

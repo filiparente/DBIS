@@ -27,9 +27,13 @@ function consultNumber($animalName, $VAT_owner, $year, $conn) {
     }
     return $number;
 }
+$sql = "select VAT from person where name like %".$_POST["ownerName"]."%';";
 
-$_SESSION["number"] = consultNumber($_POST["animalName"], $_POST["year"], $conn);
-echo "Number of consults with ".$_POST["animalName"]." in ".$_POST["year"].": ";
+$result = $conn->query($sql);
+$ownerVAT = $result["VAT"];
+
+$_SESSION["number"] = consultNumber($_POST["animalName"], $ownerVAT,$_POST["year"], $conn);
+echo "Number of consults with animal ".$_POST["animalName"].", owner ".$_POST["ownerName"].", in ".$_POST["year"].": ";
 echo $_SESSION["number"];
 echo '<form action="index.php">
       <input type="submit" name="Go back to homepage" value="Go back to homepage">

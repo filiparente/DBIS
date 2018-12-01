@@ -42,6 +42,8 @@
     <form login method="POST" action="consultNumber.php">
         <label for="animalName">Animal name:</label>
         <input type="text" name="animalName" id="animalName">
+        <label for="ownerName"> Owner Name:</label>
+        <input type="text" name="ownerName" id="ownerName">
         <label for="year">Year:</label>
         <input type="text" name="year" id="year">
         <input type="submit" name="consultNumber" value="Number of consults">
