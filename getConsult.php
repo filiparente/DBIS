@@ -40,9 +40,9 @@
     if($result->num_rows>0){
         echo "<table border='1'><tr><th>Consult diagnosis</th></tr>";
         while($row=$result->fetch_assoc()){
-            echo "<th>".$row["diagnosis_name"]."</th>";
+            echo "<tr><th>".$row["diagnosis_name"]."</th></tr>";
         }
-        echo "</tr></table><br><br><br>";
+        echo "</table><br><br><br>";
     }
 
     $sql='select pres.name_med name_med, pres.lab lab, pres.dosage dosage, pres.regime regime from prescription pres, consult c where c.name=? and c.VAT_owner=? and c.date_timestamp=? and pres.name=c.name and pres.VAT_owner=c.VAT_owner and pres.date_timestamp=c.date_timestamp;';
@@ -61,5 +61,9 @@
         }
         echo "</table><br><br><br>";
     }
+
+    echo '<form action="index.php">
+      <input type="submit" name="Go back" value="Go back to homepage">
+      ';
 ?>
     
