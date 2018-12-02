@@ -3,7 +3,7 @@
 
     try{
         // Begin transaction
-        $conn->begin_transaction();
+        $conn->beginTransaction();
 
         // Get variables
         $animalName = $_GET["animalName"];
@@ -28,21 +28,23 @@
             echo('ERROR couldnt access procedures num');
             echo('<br>');
         }else{
-            $stmt->bind_param("sds", $animalName, $VAT_owner, $date);
-            $result = $stmt->execute();
-            $result = $stmt->get_result();
-
-            if($result === FALSE){
-                echo('ERROR couldnt access procedures num. Execute() failed: ' . htmlspecialchars($result->error));
+            $stmt->bindParam(1, $animalName, PDO::PARAM_STR);
+            $stmt->bindParam(2, $VAT_owner, PDO::PARAM_INT);
+            $stmt->bindParam(3, $date, PDO::PARAM_STR);
+            $stmt->execute();
+           
+            if($stmt === FALSE){
+                echo('ERROR couldnt access procedures num. Execute() failed: ' . htmlspecialchars($stmt->error));
                 echo('<br>');
-                $conn->rollback();
+                $conn->rollBack();
                 $norollback = FALSE;
             }else{
-                if($result->num_rows == 0){
+                if($stmt->rowCount() == 0){
                     $num = 1;
                 }else{
-                    $row = $result->fetch_assoc();
-                    $num = $row["max_procedure"]+1;
+                    foreach($stmt as $row){
+                        $num = $row["max_procedure"]+1;
+                    }
                 }
             }
 
@@ -58,15 +60,18 @@
             if($stmt === FALSE){
                 echo('ERROR procedure was not registered.');
                 echo('<br>');
-                $conn->rollback();
+                $conn->rollBack();
                 $norollback = FALSE;
             }else{
-                $stmt->bind_param("sdsd", $animalName, $VAT_owner, $date, $num);
-                $result = $stmt->execute();
-                if($result === FALSE){
-                    echo('ERROR test_procedure was not registered. Execute() failed: ' . htmlspecialchars($result->error));
+                $stmt->bindParam(1, $animalName, PDO::PARAM_STR);
+                $stmt->bindParam(2, $VAT_owner, PDO::PARAM_INT);
+                $stmt->bindParam(3, $date, PDO::PARAM_STR);
+                $stmt->bindParam(4, $num, PDO::PARAM_INT);
+                $stmt->execute();
+                if($stmt === FALSE){
+                    echo('ERROR test_procedure was not registered. Execute() failed: ' . htmlspecialchars($stmt->error));
                     echo('<br>');
-                    $conn->rollback();
+                    $conn->rollBack();
                     $norollback = FALSE;
                 }
             }
@@ -78,15 +83,21 @@
             if($stmt === FALSE){
                 echo('ERROR performed was not registered.');
                 echo('<br>');
-                $conn->rollback();
+                $conn->rollBack();
                 $norollback = FALSE;
             }else{
-                $stmt->bind_param("sdsdd", $animalName, $VAT_owner, $date, $num, $VAT_assist);
-                $result = $stmt->execute();
-                if($result === FALSE){
-                    echo('ERROR performed was not registered. Execute() failed: ' . htmlspecialchars($result->error));
+                $stmt->bindParam(1, $animalName, PDO::PARAM_STR);
+                $stmt->bindParam(2, $VAT_owner, PDO::PARAM_INT);
+                $stmt->bindParam(3, $date, PDO::PARAM_STR);
+                $stmt->bindParam(4, $num, PDO::PARAM_INT);
+                $stmt->bindParam(5, $VAT_assist, PDO::PARAM_INT);
+                
+
+                $stmt->execute();
+                if($stmt === FALSE){
+                    echo('ERROR performed was not registered. Execute() failed: ' . htmlspecialchars($stmt->error));
                     echo('<br>');
-                    $conn->rollback();
+                    $conn->rollBack();
                     $norollback = FALSE;
                 }
             }
@@ -100,15 +111,20 @@
             if($stmt === FALSE){
                 echo('ERROR test_procedure was not registered.');
                 echo('<br>');
-                $conn->rollback();
+                $conn->rollBack();
                 $norollback = FALSE;
             }else{
-                $stmt->bind_param("sdsds", $animalName, $VAT_owner, $date, $num, $type);
-                $result = $stmt->execute();
-                if($result === FALSE){
-                    echo('ERROR test_procedure was not registered. Execute() failed: ' . htmlspecialchars($result->error));
+                $stmt->bindParam(1, $animalName, PDO::PARAM_STR);
+                $stmt->bindParam(2, $VAT_owner, PDO::PARAM_INT);
+                $stmt->bindParam(3, $date, PDO::PARAM_STR);
+                $stmt->bindParam(4, $num, PDO::PARAM_INT);
+                $stmt->bindParam(5, $type, PDO::PARAM_STR);
+                
+                $stmt->execute();
+                if($stmt === FALSE){
+                    echo('ERROR test_procedure was not registered. Execute() failed: ' . htmlspecialchars($stmt->error));
                     echo('<br>');
-                    $conn->rollback();
+                    $conn->rollBack();
                     $norollback = FALSE;
                 }
             }
@@ -124,7 +140,7 @@
             // No indicator was produced for that particular test -> violates the constraint RI
             if ($flag_indicators === FALSE){
                 echo('ERROR: Violation of the constraint "RI: all tests are required to produce at least one indicator"');
-                $conn->rollback();
+                $conn->rollBack();
                 $norollback = FALSE;
             }
 
@@ -160,15 +176,22 @@
         if($stmt === FALSE){
             throw new Exception("ERROR '".$indicator_name."' indicator was not registered");
             echo('<br>');
-            $conn->rollback();
+            $conn->rollBack();
             $norollback = FALSE;
         }else{
-            $stmt->bind_param("sdsdd", $animalName, $VAT_owner, $date, $num, $indicator_name, $_POST[$indicator_name]);
-            $result = $stmt->execute();
-            if($result === FALSE){
-                echo("ERROR '".$indicator_name."' was not registered. Execute() failed: " . htmlspecialchars($result->error));
+    
+            $stmt->bindParam(1, $animalName, PDO::PARAM_STR);
+            $stmt->bindParam(2, $VAT_owner, PDO::PARAM_INT);
+            $stmt->bindParam(3, $date, PDO::PARAM_STR);
+            $stmt->bindParam(4, $num, PDO::PARAM_INT);
+            $stmt->bindParam(5, $indicator_name, PDO::PARAM_STR);
+            $stmt->bindParam(6, $_POST[$indicator_name], PDO::PARAM_INT);
+
+            $stmt->execute();
+            if($stmt === FALSE){
+                echo("ERROR '".$indicator_name."' was not registered. Execute() failed: " . htmlspecialchars($stmt->error));
                 echo('<br>');
-                $conn->rollback();
+                $conn->rollBack();
                 $norollback = FALSE;
             }else{
                 $flag_indicators = TRUE;

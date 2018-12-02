@@ -1,6 +1,9 @@
 <?php
     include_once "conn.php";
     session_start();
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    } 
 ?>
 
 <!DOCTYPE html>
@@ -18,14 +21,19 @@
         <!--<option selected="selected">Client VAT:</option>-->
         <?php
         $sql = 'select VAT from client;';
-        $stmt = $conn->prepare($sql);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        $result = $conn->query($sql);
+
+        if ($result == FALSE)
+        {
+            $info = $conn->errorInfo();
+            echo("<p>Error: {$info[2]}</p>");
+            exit();
+        }
         
-        while ($row = $result->fetch_assoc()) {
+       foreach($result as $row) {
             $code = $row["VAT"];
         ?>
-        <option name="Client VAT" value="<?php echo($code); ?>"><?php echo $code; ?></option>
+        <option name="VAT" value="<?php echo($code); ?>"><?php echo $code; ?></option>
         <?php
         }
         ?>
@@ -46,15 +54,7 @@
         <input type="text" name="ownerName" id="ownerName">
         <label for="year">Year:</label>
         <input type="text" name="year" id="year">
-        <input type="submit" name="consultNumber" value="Number of consults">
-    </form>
-    <br>
-    <?php
-    //    if(isset($_SESSION["number"])){
-    //        echo "Number of consults with ".$_POST["animalName"]." in ".$_POST["year"].": ";
-    //        echo $_SESSION["number"];
-    //        unset($_SESSION["number"]);
-    //    }
-    ?>
+        <input type="submit" value="Number of consults">
+    </form>    
 </body>
 </html>

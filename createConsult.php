@@ -29,21 +29,30 @@
     //Get VAT from owner's name
     $sql = "select VAT from person where name=?;";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $ownerName);
+    $stmt->bindParam(1, $ownerName, PDO::PARAM_STR);
     $stmt->execute();
-    $result = $stmt->get_result();
-    $row = $result->fetch_assoc();
-    $ownerVAT = $row["VAT"];
+    
+    foreach ($stmt as $row){
+        $ownerVAT = $row["VAT"];
+    }
     
     // INSERT CONSULT FIRST
     
     $sql = "INSERT INTO consult (name,VAT_owner, date_timestamp,s,o,a,p,VAT_client,VAT_vet,weight) values (?,?,?,?,?,?,?,?,?,?);";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sdsssssddd",$animalName, $ownerVAT, $date,$_POST["S"],$_POST["O"],$_POST["A"],$_POST["P"],$clientVAT,$vetVAT,$_POST["weight"]);
-    $result = $stmt->execute();
+    $stmt->bindParam(1, $animalName, PDO::PARAM_STR);
+    $stmt->bindParam(2, $ownerVAT, PDO::PARAM_INT);
+    $stmt->bindParam(3, $date, PDO::PARAM_STR);
+    $stmt->bindParam(4, $_POST["S"], PDO::PARAM_STR);
+    $stmt->bindParam(5, $_POST["O"], PDO::PARAM_STR);
+    $stmt->bindParam(6, $_POST["A"], PDO::PARAM_STR);
+    $stmt->bindParam(7, $_POST["P"], PDO::PARAM_STR);
+    $stmt->bindParam(8, $clientVAT, PDO::PARAM_INT);
+    $stmt->bindParam(9, $vetVAT, PDO::PARAM_INT);
+    $stmt->bindParam(10, $_POST["weight"], PDO::PARAM_STR);
+    $stmt->execute();
     
-    
-    if($result === FALSE){
+    if($stmt === FALSE){
         echo('ERROR Consult was not registered. Execute() failed: ' . htmlspecialchars($stmt->error));
         echo('<br>');
     }else{
@@ -61,10 +70,13 @@
         //Insert each diagnosis into consult_diagnosis
         $sql = "INSERT INTO consult_diagnosis (code, name, VAT_owner, date_timestamp) values (?,?,?,?);";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("dsds", $diagnosis, $animalName, $ownerVAT, $date);
-        $result = $stmt->execute();
+        $stmt->bindParam(1, $diagnosis, PDO::PARAM_INT);
+        $stmt->bindParam(2, $animalName, PDO::PARAM_STR);
+        $stmt->bindParam(3, $ownerVAT, PDO::PARAM_INT);
+        $stmt->bindParam(4, $date, PDO::PARAM_STR);
+        $stmt->execute();
 
-        if($result === FALSE){
+        if($stmt === FALSE){
             echo('ERROR Consult diagnosis was not registered. Execute() failed: ' . htmlspecialchars($stmt->error));
             echo('<br>');
         }else{

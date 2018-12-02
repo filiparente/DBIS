@@ -22,9 +22,8 @@
             $sql = 'select VAT from assistant;';
             $stmt = $conn->prepare($sql);
             $stmt->execute();
-            $result = $stmt->get_result();
             
-            while ($row = $result->fetch_assoc()) {
+            foreach($stmt as $row){
                 $code = $row["VAT"];
                 echo("<option value=\"$code\">$code</option>");
             }

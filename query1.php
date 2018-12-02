@@ -1,10 +1,9 @@
 <?php
 include_once "conn.php";
 
+
 // Start the session
 session_start();
-
-
 
 if(!isset($_POST["animalName"]) || empty($_POST["animalName"])){
     echo('ERROR -  Required field not provided: Animal Name.');
@@ -26,26 +25,24 @@ if(!isset($_POST["animalName"]) || empty($_POST["animalName"])){
 
     //Prepare sql query to get, from the database, the client with the VAT obtained from the homepage
     $stmt = $conn->prepare("select * from client where VAT=?;");
-    $stmt->bind_param("d",$VAT);
+    $stmt->bindParam(1, $VAT, PDO::PARAM_INT);
+    //$sth->bindParam(2, $colour, PDO::PARAM_STR, 12);
     $stmt->execute();
-    $stmt->store_result();
 
     //If the result has no rows, it means that the VAT is not in the database, so the client is not registered
-    if($stmt->num_rows == 0){
+    if($stmt->rowCount() == 0){
         echo "VAT not registered as client";
 
     } else {
-
         //Otherwise, request to the database the person's information using the corresponding VAT number
         $stmt = $conn->prepare("select * from person where VAT=?;");
-        $stmt->bind_param("d",$VAT);
+        $stmt->bindParam(1, $VAT, PDO::PARAM_INT);
         $stmt->execute();
-        $result = $stmt->get_result();
 
         //Display client's info in a table
         echo "Client:";
         echo "<table border='1'><tr><th>Name</th><th>VAT</th><th>Street</th><th>City</th><th>Zip address</th></tr>";
-        while($row = $result->fetch_assoc()){
+        foreach ($stmt as $row){
 
             //Store the name of the client
             $clientName = $row["name"];
@@ -67,7 +64,7 @@ if(!isset($_POST["animalName"]) || empty($_POST["animalName"])){
         $result = $conn->query($sql);
 
         //If the result has no rows, it means that there are no correspondences between the animal name and the (portion of) owner name provided
-        if($result->num_rows == 0){
+        if($result->rowCount() == 0){
             echo "There are no correspondences between animal name and owner name<br>";
             
             //Option to register a new animal
@@ -100,7 +97,7 @@ if(!isset($_POST["animalName"]) || empty($_POST["animalName"])){
 
             // Show a table with the animal name, species and full owner name
             echo "<table border='1'><tr><th>Animal name</th><th>Species</th><th>Owner name</th></tr>";
-            while($row = $result->fetch_assoc()){
+            foreach ($result as $row){
 
                 //Put a reference to a URL on the animal name: when clicked, execute code on getAnimal.php, passing parameters animal and owner
                 echo "<tr><th><a href='getAnimal.php?animal=".$row["animalName"]."&owner=".$row["personName"]."'>".$row["animalName"]."</a></th>";
@@ -109,12 +106,14 @@ if(!isset($_POST["animalName"]) || empty($_POST["animalName"])){
             }
             echo "</table><br><br><br>";
 
+            echo '<form action="index.php">
+            <input type="submit" name="Go back" value="Go back to homepage">
+            ';
+    
+
         }
         
         
         }
     }
-    echo '<form action="index.php">
-            <input type="submit" name="Go back" value="Go back to homepage">
-            ';
     

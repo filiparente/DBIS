@@ -8,9 +8,9 @@
     $stmt = $conn->prepare($sql);
 
     //Bind parameters. GET animal and owner from query1.php
-    $stmt->bind_param("ss", $_GET["animal"], $_GET["owner"]);
+    $stmt->bindParam(1, $_GET["animal"], PDO::PARAM_STR);
+    $stmt->bindParam(2, $_GET["owner"], PDO::PARAM_STR);
     $stmt->execute();
-    $result = $stmt->get_result();
 
     //Display consults with that animal and that owner
     echo "Consults with animal ".$_GET["animal"]." and with the owner ".$_GET["owner"].":";
@@ -19,7 +19,7 @@
     echo "<table border='1'><tr><th>Animal name</th><th>Owner name</th><th>Client name</th><th>Veterinary name</th><th>Date</th><th></th></tr>";
     
     //For each consult where that animal and owner participated
-    while($row = $result->fetch_assoc()){
+    foreach ($stmt as $row){
         //Display
         echo "<tr><th>".$row["animalName"]."</th>";
         echo "<th>".$row["ownerName"]."</th>";
@@ -50,9 +50,8 @@
             $sql = 'select VAT from veterinary;';
             $stmt = $conn->prepare($sql);
             $stmt->execute();
-            $result = $stmt->get_result();
             
-            while ($row = $result->fetch_assoc()) {
+            foreach ($stmt as $row) {
                 $code = $row["VAT"];
                 echo("<option value=\"$code\">$code</option>");
             }
@@ -87,12 +86,11 @@
     $sql = 'select name, code from diagnosis_code;';
     $stmt = $conn->prepare($sql);
     $stmt->execute();
-    $result = $stmt->get_result();
 
     echo "<table border='1'><tr><th>Diagnostic code:</th><th>Diagnostic name:</th></tr>";
     
     //Present diagnostic codes and diagnosis names in a auxiliar table to help the user to introduce the diagnosis codes for a given consult
-    while($row = $result->fetch_assoc()){
+    foreach($stmt as $row){
         //Display
         echo "<tr><th>".$row["code"]."</th>";
         echo "<th>".$row["name"]."</th></tr>";
