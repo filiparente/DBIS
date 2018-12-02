@@ -25,24 +25,24 @@ if((!isset($_POST["registerAnimalColour"]) || empty($_POST["registerAnimalColour
 
 
     $registerAnimalAge = $curr_year-$registerAnimalBirth;
+    try{
+        $sql = "INSERT INTO animal (name, VAT, species_name, colour, gender, birth_year, age) VALUES (?,?,?,?,?,?,?);";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(1, $registerAnimalName, PDO::PARAM_STR);
+        $stmt->bindParam(2, $VAT, PDO::PARAM_INT);
+        $stmt->bindParam(3, $registerAnimalSpecies, PDO::PARAM_STR);
+        $stmt->bindParam(4, $registerAnimalColour, PDO::PARAM_STR);
+        $stmt->bindParam(5, $registerAnimalGender, PDO::PARAM_STR);
+        $stmt->bindParam(6, $registerAnimalBirth, PDO::PARAM_INT);
+        $stmt->bindParam(7, $registerAnimalAge, PDO::PARAM_INT);
+        $stmt->execute();
 
-    $sql = "INSERT INTO animal (name, VAT, species_name, colour, gender, birth_year, age) VALUES (?,?,?,?,?,?,?);";
-    $stmt = $conn->prepare($sql);
-    $stmt->bindParam(1, $registerAnimalName, PDO::PARAM_STR);
-    $stmt->bindParam(2, $VAT, PDO::PARAM_INT);
-    $stmt->bindParam(3, $registerAnimalSpecies, PDO::PARAM_STR);
-    $stmt->bindParam(4, $registerAnimalColour, PDO::PARAM_STR);
-    $stmt->bindParam(5, $registerAnimalGender, PDO::PARAM_STR);
-    $stmt->bindParam(6, $registerAnimalBirth, PDO::PARAM_INT);
-    $stmt->bindParam(7, $registerAnimalAge, PDO::PARAM_INT);
-    $stmt->execute();
-        
-        
-    if($stmt === FALSE){
-        echo('ERROR animal was not registered. Execute() failed: ' . htmlspecialchars($stmt->error));
-    }else{
         echo('Animal registered in the database successfully.');
+    }catch(PDOException $e){
+        echo('ERROR animal was not registered. Execute() failed: ' . htmlspecialchars($stmt->error));
+        echo('<br>');
     }
+        
     echo "<a href='index.php'> <button> Go back to homepage </button></a><br>";
 }
 ?>

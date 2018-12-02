@@ -20,21 +20,19 @@
         <select id="VAT" name="VAT">
         <!--<option selected="selected">Client VAT:</option>-->
         <?php
-        $sql = 'select VAT from client;';
-        $result = $conn->query($sql);
-
-        if ($result == FALSE)
-        {
-            $info = $conn->errorInfo();
-            echo("<p>Error: {$info[2]}</p>");
-            exit();
-        }
-        
-       foreach($result as $row) {
-            $code = $row["VAT"];
+        try{
+            $sql = 'select VAT from client;';
+            $result = $conn->query($sql);
+            
+            foreach($result as $row) {
+                    $code = $row["VAT"];
         ?>
-        <option name="VAT" value="<?php echo($code); ?>"><?php echo $code; ?></option>
+                <option name="VAT" value="<?php echo($code); ?>"><?php echo $code; ?></option>
         <?php
+            }
+        }catch(PDOException $e){
+            echo("ERROR Couldnt access client.");
+            echo('<br>');
         }
         ?>
         </select>

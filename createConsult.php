@@ -19,61 +19,68 @@
         $date = date("Y-m-d H:i:s");
 
         //Get VAT from owner's name
-        $sql = "select VAT from person where name=?;";
-        $stmt = $conn->prepare($sql);
-        $stmt->bindParam(1, $ownerName, PDO::PARAM_STR);
-        $stmt->execute();
-        
-        foreach ($stmt as $row){
-            $ownerVAT = $row["VAT"];
+        try{
+            $sql = "select VAT from person where name=?;";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(1, $ownerName, PDO::PARAM_STR);
+            $stmt->execute();
+            foreach ($stmt as $row){
+                $ownerVAT = $row["VAT"];
+            }
+        }catch(PDOException $e){
+            echo("ERROR Couldnt access person.");
+            echo('<br>');
         }
+        
         
         // INSERT CONSULT FIRST
         if(!isset($_POST["S"]) || empty($_POST["S"])){
-            $s = "default";
+            $s = 'default';
         }else{
             $s = $_POST["S"];
         }
 
         if(!isset($_POST["O"]) || empty($_POST["O"])){
-            $o = "default";
+            $o = 'default';
         }else{
             $o = $_POST["O"];
         }
 
         if(!isset($_POST["A"]) || empty($_POST["A"])){
-            $a = "default";
+            $a = 'default';
         }else{
             $a = $_POST["A"];
         }
 
         if(!isset($_POST["P"]) || empty($_POST["P"])){
-            $p = "default";
+            $p = 'default';
         }else{
             $p = $_POST["P"];
         }
 
-        $sql = "INSERT INTO consult (name,VAT_owner, date_timestamp,s,o,a,p,VAT_client,VAT_vet,weight) values (?,?,?,?,?,?,?,?,?,?);";
-        $stmt = $conn->prepare($sql);
-        $stmt->bindParam(1, $animalName, PDO::PARAM_STR);
-        $stmt->bindParam(2, $ownerVAT, PDO::PARAM_INT);
-        $stmt->bindParam(3, $date, PDO::PARAM_STR);
-        $stmt->bindParam(4, $_POST["S"], PDO::PARAM_STR);
-        $stmt->bindParam(5, $_POST["O"], PDO::PARAM_STR);
-        $stmt->bindParam(6, $_POST["A"], PDO::PARAM_STR);
-        $stmt->bindParam(7, $_POST["P"], PDO::PARAM_STR);
-        $stmt->bindParam(8, $clientVAT, PDO::PARAM_INT);
-        $stmt->bindParam(9, $vetVAT, PDO::PARAM_INT);
-        $stmt->bindParam(10, $_POST["weight"], PDO::PARAM_STR);
-        $stmt->execute();
-        
-        if($stmt === FALSE){
-            echo('ERROR Consult was not registered. Execute() failed: ' . htmlspecialchars($stmt->error));
-            echo('<br>');
-        }else{
+        try{
+            $sql = "INSERT INTO consult (name,VAT_owner, date_timestamp,s,o,a,p,VAT_client,VAT_vet,weight) values (?,?,?,?,?,?,?,?,?,?);";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(1, $animalName, PDO::PARAM_STR);
+            $stmt->bindParam(2, $ownerVAT, PDO::PARAM_INT);
+            $stmt->bindParam(3, $date, PDO::PARAM_STR);
+            $stmt->bindParam(4, $s, PDO::PARAM_STR);
+            $stmt->bindParam(5, $o, PDO::PARAM_STR);
+            $stmt->bindParam(6, $a, PDO::PARAM_STR);
+            $stmt->bindParam(7, $p, PDO::PARAM_STR);
+            $stmt->bindParam(8, $clientVAT, PDO::PARAM_INT);
+            $stmt->bindParam(9, $vetVAT, PDO::PARAM_INT);
+            $stmt->bindParam(10, $_POST["weight"], PDO::PARAM_STR);
+            $stmt->execute();
+
             echo('Consult registered in the database successfully!');
             echo('<br>');
+
+        }catch(PDOException $e){
+            echo('ERROR Consult was not registered. Execute() failed: ' . htmlspecialchars($stmt->error));
+            echo('<br>');
         }
+        
 
         // INSERT CONSULT DIAGNOSIS AFTER
         
@@ -98,9 +105,7 @@
                     $stmt->bindParam(3, $ownerVAT, PDO::PARAM_INT);
                     $stmt->bindParam(4, $date, PDO::PARAM_STR);
                     $stmt->execute();
-                }
-                catch(PDOException $e)
-                {
+                }catch(PDOException $e){
                     echo("ERROR Consult diagnosis was not registered.");
                     echo('<br>');
                     $conn->rollBack();

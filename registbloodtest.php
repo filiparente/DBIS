@@ -144,12 +144,7 @@
         $sql = "INSERT INTO produced_indicator(name, VAT_owner, date_timestamp, num, indicator_name, value) values (?,?,?,?,?,?);";
         $stmt = $conn->prepare($sql);
         
-        if($stmt === FALSE){
-            throw new Exception("ERROR '".$indicator_name."' indicator was not registered");
-            echo('<br>');
-            $conn->rollBack();
-            $norollback = FALSE;
-        }else{
+        try{
     
             $stmt->bindParam(1, $animalName, PDO::PARAM_STR);
             $stmt->bindParam(2, $VAT_owner, PDO::PARAM_INT);
@@ -159,14 +154,13 @@
             $stmt->bindParam(6, $_POST[$indicator_name], PDO::PARAM_INT);
 
             $stmt->execute();
-            if($stmt === FALSE){
-                echo("ERROR '".$indicator_name."' was not registered. Execute() failed: " . htmlspecialchars($stmt->error));
-                echo('<br>');
-                $conn->rollBack();
-                $norollback = FALSE;
-            }else{
-                $flag_indicators = TRUE;
-            }
+            $flag_indicators = TRUE;
+        }catch(PDOException $e){
+            echo("ERROR '".$indicator_name."' indicator was not registered");
+            echo('<br>');
+            $conn->rollBack();
+            $norollback = FALSE;
+            $flag_indicators = FALSE;
         }
 
         return array($norollback, $flag_indicators);

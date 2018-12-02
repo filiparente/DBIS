@@ -1,9 +1,16 @@
 <?php
+
+//FOR PHPMYADMIN
 //$servername = "localhost";
 //$username = "root";
 //$password = "";
 //$dbname = "part2";
 
+
+// Create connection
+//$conn = new mysqli($servername, $user, $pass, $host);
+
+//FOR SIGMA
 $host = "db.tecnico.ulisboa.pt";
 $user = "ist181324";
 $pass = "xttm4017";
@@ -14,15 +21,10 @@ try
 }
 catch(PDOException $exception)
 {
-    echo("<p>Error: ");
+    echo("Error: ");
     echo($exception->getMessage());
-    echo("</p>");
-    exit();
+    echo("<br>");
 }
-
-
-// Create connection
-//$conn = new mysqli($servername, $user, $pass, $host);
 
 // Check connection
 if ($conn->connect_error) {

@@ -9,9 +9,6 @@
     $VAT_vet = $_GET["vet"];
     $VAT_client = $_GET["client"];
 
-    echo($animalName);
-    echo($VAT_owner);
-
     $date = $_GET["date"];
 ?>
 
@@ -22,14 +19,20 @@
         <label for="VAT_assist">VAT of the assistant:</label>
         <select name="VAT_assist">
         <?php
-            $sql = 'select VAT from assistant;';
-            $stmt = $conn->prepare($sql);
-            $stmt->execute();
-            
-            foreach($stmt as $row){
-                $code = $row["VAT"];
-                echo("<option value=\"$code\">$code</option>");
+            try{
+                $sql = 'select VAT from assistant;';
+                $stmt = $conn->prepare($sql);
+                $stmt->execute();
+                
+                foreach($stmt as $row){
+                    $code = $row["VAT"];
+                    echo("<option value=\"$code\">$code</option>");
+                }
+            }catch(PDOException $e){
+                echo("ERROR Couldnt access assistant.");
+                echo('<br>');
             }
+            
             
         ?>    
         </select>
