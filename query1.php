@@ -5,12 +5,12 @@ include_once "conn.php";
 // Start the session
 session_start();
 
-if(!isset($_POST["animalName"]) || empty($_POST["animalName"])){
-    echo('ERROR -  Required field not provided: Animal Name.');
-}elseif(!isset($_POST["animalOwner"]) || empty($_POST["animalOwner"])){
-    echo('ERROR -  Required field not provided: Animal Owner.');
-}elseif(!isset($_POST["VAT"]) || empty($_POST["VAT"])){
-    echo('ERROR -  Required field not provided: Client VAT.');
+if(!isset($_POST["animalName"]) || empty($_POST["animalName"]) || !isset($_POST["animalOwner"]) || empty($_POST["animalOwner"]) || !isset($_POST["VAT"]) || empty($_POST["VAT"])){
+    echo('ERROR -  All fields are mandatory.');
+    echo('<br>');
+    echo '<form action="index.php">
+        <input type="submit" name="Go back to homepage" value="Go back to homepage">
+        ';
 }else{
 
     //Get the data required in homepage (animal name, owner name and client VAT)
@@ -77,17 +77,18 @@ if(!isset($_POST["animalName"]) || empty($_POST["animalName"])){
 
             //Display form to register animal with the client as the owner and go to registanimal.php
             echo '<form action="registanimal.php" method="POST">
-            <label for="registerAnimalColour">Animal colour</label>
+            <label for="registerAnimalColour">Animal colour*</label>
             <input type="text" name="registerAnimalColour"><br>
-            <label for="registerAnimalSpecies">Animal species</label>
+            <label for="registerAnimalSpecies">Animal species*</label>
             <input type="text" name="registerAnimalSpecies"><br>
-            <label for="registerAnimalGender">Animal gender</label>
+            <label for="registerAnimalGender">Animal gender*</label>
             <input type="text" name="registerAnimalGender"><br>
-            <label for="registerAnimalBirth">Animal birth year</label>
+            <label for="registerAnimalBirth">Animal birth year*</label>
             <input type="text" name="registerAnimalBirth"><br>
             
             <button formaction="registanimal.php">Regist animal</button>
             <button formaction="index.php">Go back to homepage</button>
+            <p> * - Required fields</p>
             ';        
 
 

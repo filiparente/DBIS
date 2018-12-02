@@ -43,7 +43,7 @@
     <body>
         <!--Display form to create a consult for that animal and owner and go to createConsult.php  -->    
         <?php echo'<form login method="POST" action="createConsult.php?animalName='.$_GET["animal"].'&ownerName='.$_GET["owner"].'"'?>
-        <label for="veterinaryVAT">Veterinary VAT:</label>
+        <label for="veterinaryVAT">Veterinary VAT*:</label>
         <select name="veterinaryVAT">
         <?php
             $sql = 'select VAT from veterinary;';
@@ -58,7 +58,7 @@
         ?>    
         </select>
         <br>
-        <label for="weight">Weight:</label>
+        <label for="weight">Weight*:</label>
         <input type="number" name="weight" id="weight">
         <br>
         <label for="S">S:</label>
@@ -77,6 +77,7 @@
         <input type="text" name="DiagnosticCodes" id="DiagnosticCodes"/>
         <br>
         <input type="submit" name="createConsult" value="Create consult">
+        <p> * - Required fields </p>
         </form>
     </body> 
 </html>

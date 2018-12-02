@@ -48,13 +48,14 @@
     </form>
     <br>
     <form login method="POST" action="consultNumber.php">
-        <label for="animalName">Animal name:</label>
+        <label for="animalName">Animal name*:</label>
         <input type="text" name="animalName" id="animalName">
-        <label for="ownerName"> Owner Name:</label>
+        <label for="ownerName"> Owner Name*:</label>
         <input type="text" name="ownerName" id="ownerName">
-        <label for="year">Year:</label>
+        <label for="year">Year*:</label>
         <input type="text" name="year" id="year">
         <input type="submit" value="Number of consults">
+        <p> * - Required fields </p>
     </form>    
 </body>
 </html>
