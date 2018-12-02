@@ -8,9 +8,7 @@ session_start();
 if(!isset($_POST["animalName"]) || empty($_POST["animalName"]) || !isset($_POST["animalOwner"]) || empty($_POST["animalOwner"]) || !isset($_POST["VAT"]) || empty($_POST["VAT"])){
     echo('ERROR -  All fields are mandatory.');
     echo('<br>');
-    echo '<form action="index.php">
-        <input type="submit" name="Go back to homepage" value="Go back to homepage">
-        ';
+    echo "<a href='index.php'> <button> Go back to homepage </button></a><br>";
 }else{
 
     //Get the data required in homepage (animal name, owner name and client VAT)
@@ -109,9 +107,7 @@ if(!isset($_POST["animalName"]) || empty($_POST["animalName"]) || !isset($_POST[
             }
             echo "</table><br><br><br>";
 
-            echo '<form action="index.php">
-            <input type="submit" name="Go back" value="Go back to homepage">
-            ';
+            echo "<a href='index.php'> <button> Go back to homepage </button></a><br>";
     
 
         }

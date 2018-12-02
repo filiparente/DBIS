@@ -4,9 +4,7 @@
     if((!isset($_POST["weight"]) || empty($_POST["weight"]) || (!isset($_POST["veterinaryVAT"]) || empty($_POST["veterinaryVAT"])))){
         echo('ERROR -  Required fields not filled in.');
         echo('<br>');
-        echo '<form action="index.php">
-            <input type="submit" name="Go back to homepage" value="Go back to homepage">
-            ';
+        echo "<a href='index.php'> <button> Go back to homepage </button></a><br>";
     }else{
         // Start session to get variables from homepage
         session_start();
@@ -15,20 +13,6 @@
         $ownerName = $_GET["ownerName"];
         $clientVAT = $_SESSION["clientVAT"];
         $vetVAT = $_POST["veterinaryVAT"];
-
-    
-
-        //$sql = "select p1.VAT clientVAT, p2.VAT vetVAT, p3.VAT ownerVAT from person p1, person p2, person p3 where p1.VAT=? and p2.VAT=? and p3.name=?;";
-        //$stmt = $conn->prepare($sql);
-        //$stmt->bind_param("sss", $clientVAT, $_POST["veterinaryVAT"], $ownerName);
-        //$stmt->execute();
-        //$result = $stmt->get_result();
-
-        //while($row = $result->fetch_assoc()){
-        //   $clientVAT = $row["clientVAT"];
-        //    $vetVAT = $row["vetVAT"];
-        //    $ownerVAT = $row["ownerVAT"];
-        //}
 
         // Get current date
         date_default_timezone_set('Europe/Lisbon');
@@ -45,7 +29,30 @@
         }
         
         // INSERT CONSULT FIRST
-        
+        if(!isset($_POST["S"]) || empty($_POST["S"])){
+            $s = "default";
+        }else{
+            $s = $_POST["S"];
+        }
+
+        if(!isset($_POST["O"]) || empty($_POST["O"])){
+            $o = "default";
+        }else{
+            $o = $_POST["O"];
+        }
+
+        if(!isset($_POST["A"]) || empty($_POST["A"])){
+            $a = "default";
+        }else{
+            $a = $_POST["A"];
+        }
+
+        if(!isset($_POST["P"]) || empty($_POST["P"])){
+            $p = "default";
+        }else{
+            $p = $_POST["P"];
+        }
+
         $sql = "INSERT INTO consult (name,VAT_owner, date_timestamp,s,o,a,p,VAT_client,VAT_vet,weight) values (?,?,?,?,?,?,?,?,?,?);";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(1, $animalName, PDO::PARAM_STR);
@@ -75,14 +82,15 @@
             $diagnosis_str = $_POST["DiagnosticCodes"];
             $diagnosis_array = explode("+",$diagnosis_str);
 
-            try{
-                // Begin transaction
-                $conn->beginTransaction();
-                $norollback = TRUE;
+            
+            // Begin transaction
+            $conn->beginTransaction();
+            $norollback = TRUE;
 
-                foreach ($diagnosis_array as $diagnosis){
+            foreach ($diagnosis_array as $diagnosis){
 
-                    //Insert each diagnosis into consult_diagnosis
+                //Insert each diagnosis into consult_diagnosis
+                try{
                     $sql = "INSERT INTO consult_diagnosis (code, name, VAT_owner, date_timestamp) values (?,?,?,?);";
                     $stmt = $conn->prepare($sql);
                     $stmt->bindParam(1, $diagnosis, PDO::PARAM_INT);
@@ -90,35 +98,25 @@
                     $stmt->bindParam(3, $ownerVAT, PDO::PARAM_INT);
                     $stmt->bindParam(4, $date, PDO::PARAM_STR);
                     $stmt->execute();
-
-                    if($stmt === FALSE){
-                        echo('ERROR Consult diagnosis was not registered.');
-                        echo('<br>');
-                        $conn->rollBack();
-                        $norollback = FALSE;
-                    }
-                
                 }
-                if($norollback === TRUE){
-                    $conn->commit();
-                    echo('Consult diagnosis "'.$diagnosis_str.'" registered in the database successfully!');
+                catch(PDOException $e)
+                {
+                    echo("ERROR Consult diagnosis was not registered.");
                     echo('<br>');
+                    $conn->rollBack();
+                    $norollback = FALSE;
                 }
+                
             }
-            catch( Exception $e ) {
-                # Check if statement is still open and close it
-                if($stmt){
-                    $stmt->close();
-                }
-        
-                # Create your error response
-                echo($e->getMessage());
+            if($norollback === TRUE){
+                $conn->commit();
+                echo('Consult diagnosis "'.$diagnosis_str.'" registered in the database successfully!');
+                echo('<br>');
             }
+            
         }
             
         //header("Location: getAnimal.php");
-        echo '<form action="index.php">
-        <input type="submit" name="Go back" value="Go back to homepage">
-        ';
+        echo "<a href='index.php'> <button> Go back to homepage </button></a><br>";
     }
         

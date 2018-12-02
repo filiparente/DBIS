@@ -77,11 +77,9 @@
     }else{
         echo "No medications were prescribed for this consult.<br>";
     }
-    echo "<th><a href='formbloodtest.php?animal=".$_GET["animalName"]."&owner=".$_GET["VAT_owner"]."&vet=".$_GET["VAT_vet"]."&client=".$_GET["VAT_client"]."&date=".$_GET["date"]."&clientName=".$_GET["clientName"]."&ownerName=".$_GET["ownerName"]."'>
+    echo "<th><a href='formbloodtest.php?animal=".$_GET["animal"]."&owner=".$_GET["owner"]."&vet=".$_GET["vet"]."&client=".$_GET["client"]."&date=".$_GET["date"]."&clientName=".$_GET["clientName"]."&ownerName=".$_GET["ownerName"]."'>
         <button> Regist blood test </button></a></th></tr><br>";
 
-    echo '<form action="index.php">
-      <input type="submit" name="Go back" value="Go back to homepage">
-      ';
+    echo "<a href='index.php'> <button> Go back to homepage </button></a><br>";
 ?>
     

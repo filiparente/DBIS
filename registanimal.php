@@ -4,9 +4,7 @@ include_once "conn.php";
 if((!isset($_POST["registerAnimalColour"]) || empty($_POST["registerAnimalColour"])) || (!isset($_POST["registerAnimalSpecies"]) || empty($_POST["registerAnimalSpecies"])) || (!isset($_POST["registerAnimalGender"]) || empty($_POST["registerAnimalGender"]))|| (!isset($_POST["registerAnimalGender"]) || empty($_POST["registerAnimalGender"]))){
     echo('ERROR -  All fields are mandatory.');
     echo('<br>');
-    echo '<form action="index.php">
-        <input type="submit" name="Go back to homepage" value="Go back to homepage">
-        ';
+    echo "<a href='index.php'> <button> Go back to homepage </button></a><br>";
 }else{
 
     // Start the session
@@ -45,8 +43,6 @@ if((!isset($_POST["registerAnimalColour"]) || empty($_POST["registerAnimalColour
     }else{
         echo('Animal registered in the database successfully.');
     }
-    echo'<form action="index.php">
-        <input type="submit" name="Go back to homepage" value="Go back to homepage">
-        ';
+    echo "<a href='index.php'> <button> Go back to homepage </button></a><br>";
 }
 ?>

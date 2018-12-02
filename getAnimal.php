@@ -97,7 +97,5 @@
     }
     echo "</table><br><br><br>";
 
-echo '<form action="index.php">
-      <input type="submit" name="Go back" value="Go back to homepage">
-      ';
+    echo "<a href='index.php'> <button> Go back to homepage </button></a><br>";
 ?>

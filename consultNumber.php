@@ -4,9 +4,7 @@ include_once "conn.php";
 if((!isset($_POST["animalName"]) || empty($_POST["animalName"])) || (!isset($_POST["ownerName"]) || empty($_POST["ownerName"])) || (!isset($_POST["year"]) || empty($_POST["year"]))){
     echo('ERROR -  All fields are mandatory.');
     echo('<br>');
-    echo '<form action="index.php">
-        <input type="submit" name="Go back to homepage" value="Go back to homepage">
-        ';
+    echo "<a href='index.php'> <button> Go back to homepage </button></a><br>";
 }else{
 
     $sql = "select VAT from person where name like ?;";
@@ -25,9 +23,7 @@ if((!isset($_POST["animalName"]) || empty($_POST["animalName"])) || (!isset($_PO
     $n = consultNumber($_POST["animalName"], $ownerVAT, $_POST["year"], $conn);
     echo "Number of consults with animal ".$_POST["animalName"].", owner ".$_POST["ownerName"].", in ".$_POST["year"].": ";
     echo($n);
-    echo '<form action="index.php">
-        <input type="submit" name="Go back to homepage" value="Go back to homepage">
-        ';
+    echo "<a href='index.php'> <button> Go back to homepage </button></a><br>";
     //header("Location:index.php");
 
 }
