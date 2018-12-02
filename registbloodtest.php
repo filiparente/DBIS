@@ -140,6 +140,7 @@
             // No indicator was produced for that particular test -> violates the constraint RI
             if ($flag_indicators === FALSE){
                 echo('ERROR: Violation of the constraint "RI: all tests are required to produce at least one indicator"');
+                echo('<br>');
                 $conn->rollBack();
                 $norollback = FALSE;
             }
@@ -147,6 +148,7 @@
             if($norollback === TRUE){
                 $conn->commit();
                 echo('Blood test registered in the database successfully!');
+                echo('<br>');
             }
                     
         }else{

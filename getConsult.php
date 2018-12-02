@@ -46,11 +46,14 @@
     $stmt->execute();
     
     if($stmt->rowCount()>0){
+        echo "Consult diagnosis: <br>";
         echo "<table border='1'><tr><th>Consult diagnosis</th></tr>";
         foreach($stmt as $row){
             echo "<tr><th>".$row["diagnosis_name"]."</th></tr>";
         }
         echo "</table><br><br><br>";
+    }else{
+        echo "No diagnosis for this consult.<br>";
     }
 
     $sql='select pres.name_med name_med, pres.lab lab, pres.dosage dosage, pres.regime regime from prescription pres, consult c where c.name=? and c.VAT_owner=? and c.date_timestamp=? and pres.name=c.name and pres.VAT_owner=c.VAT_owner and pres.date_timestamp=c.date_timestamp;';
@@ -71,7 +74,11 @@
             echo "<th>".$row["regime"]."</th></tr>";
         }
         echo "</table><br><br><br>";
+    }else{
+        echo "No medications were prescribed for this consult.<br>";
     }
+    echo "<th><a href='formbloodtest.php?animal=".$_GET["animalName"]."&owner=".$_GET["VAT_owner"]."&vet=".$_GET["VAT_vet"]."&client=".$_GET["VAT_client"]."&date=".$_GET["date"]."&clientName=".$_GET["clientName"]."&ownerName=".$_GET["ownerName"]."'>
+        <button> Regist blood test </button></a></th></tr><br>";
 
     echo '<form action="index.php">
       <input type="submit" name="Go back" value="Go back to homepage">

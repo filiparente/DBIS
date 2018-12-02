@@ -62,29 +62,52 @@
 
     // INSERT CONSULT DIAGNOSIS AFTER
     
-    $diagnosis_str = $_POST["DiagnosticCodes"];
-    $diagnosis_array = explode("+",$diagnosis_str);
 
-    foreach ($diagnosis_array as $diagnosis){
+    if(isset($_POST["DiagnosticCodes"]) && !empty($_POST["DiagnosticCodes"])){
+        $diagnosis_str = $_POST["DiagnosticCodes"];
+        $diagnosis_array = explode("+",$diagnosis_str);
 
-        //Insert each diagnosis into consult_diagnosis
-        $sql = "INSERT INTO consult_diagnosis (code, name, VAT_owner, date_timestamp) values (?,?,?,?);";
-        $stmt = $conn->prepare($sql);
-        $stmt->bindParam(1, $diagnosis, PDO::PARAM_INT);
-        $stmt->bindParam(2, $animalName, PDO::PARAM_STR);
-        $stmt->bindParam(3, $ownerVAT, PDO::PARAM_INT);
-        $stmt->bindParam(4, $date, PDO::PARAM_STR);
-        $stmt->execute();
+        try{
+            // Begin transaction
+            $conn->beginTransaction();
+            $norollback = TRUE;
 
-        if($stmt === FALSE){
-            echo('ERROR Consult diagnosis was not registered. Execute() failed: ' . htmlspecialchars($stmt->error));
-            echo('<br>');
-        }else{
-            echo('Consult diagnosis registered in the database successfully!');
-            echo('<br>');
+            foreach ($diagnosis_array as $diagnosis){
+
+                //Insert each diagnosis into consult_diagnosis
+                $sql = "INSERT INTO consult_diagnosis (code, name, VAT_owner, date_timestamp) values (?,?,?,?);";
+                $stmt = $conn->prepare($sql);
+                $stmt->bindParam(1, $diagnosis, PDO::PARAM_INT);
+                $stmt->bindParam(2, $animalName, PDO::PARAM_STR);
+                $stmt->bindParam(3, $ownerVAT, PDO::PARAM_INT);
+                $stmt->bindParam(4, $date, PDO::PARAM_STR);
+                $stmt->execute();
+
+                if($stmt === FALSE){
+                    echo('ERROR Consult diagnosis was not registered.');
+                    echo('<br>');
+                    $conn->rollBack();
+                    $norollback = FALSE;
+                }
+            
+            }
+            if($norollback === TRUE){
+                $conn->commit();
+                echo('Consult diagnosis "'.$diagnosis_str.'" registered in the database successfully!');
+                echo('<br>');
+            }
         }
+        catch( Exception $e ) {
+            # Check if statement is still open and close it
+            if($stmt){
+                $stmt->close();
+            }
     
+            # Create your error response
+            echo($e->getMessage());
+        }
     }
+        
     //header("Location: getAnimal.php");
     echo '<form action="index.php">
       <input type="submit" name="Go back" value="Go back to homepage">

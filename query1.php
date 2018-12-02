@@ -96,13 +96,15 @@ if(!isset($_POST["animalName"]) || empty($_POST["animalName"])){
             echo "Animal name ".$animalName." with owner name ".$ownerName.":";
 
             // Show a table with the animal name, species and full owner name
-            echo "<table border='1'><tr><th>Animal name</th><th>Species</th><th>Owner name</th></tr>";
+            echo "<table border='1'><tr><th>Animal name</th><th>Species</th><th>Owner name</th><th>Previous consults</th></tr>";
             foreach ($result as $row){
 
                 //Put a reference to a URL on the animal name: when clicked, execute code on getAnimal.php, passing parameters animal and owner
-                echo "<tr><th><a href='getAnimal.php?animal=".$row["animalName"]."&owner=".$row["personName"]."'>".$row["animalName"]."</a></th>";
+                //echo "<tr><th><a href='getAnimal.php?animal=".$row["animalName"]."&owner=".$row["personName"]."'>".$row["animalName"]."</a></th>";
+                echo "<th>".$row["animalName"]."</th>";
                 echo "<th>".$row["speciesName"]."</th>";
-                echo "<th>".$row["personName"]."</th></tr>";
+                echo "<th>".$row["personName"]."</th>";
+                echo "<th><a href='getAnimal.php?animal=".$row["animalName"]."&owner=".$row["personName"]."'</a> <button> View </button></th></tr>";
             }
             echo "</table><br><br><br>";
 

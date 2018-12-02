@@ -16,7 +16,7 @@
     echo "Consults with animal ".$_GET["animal"]." and with the owner ".$_GET["owner"].":";
     
     //Display animal name, owner name, client name, veterinary doctor name, and consult date
-    echo "<table border='1'><tr><th>Animal name</th><th>Owner name</th><th>Client name</th><th>Veterinary name</th><th>Date</th><th></th></tr>";
+    echo "<table border='1'><tr><th>Animal name</th><th>Owner name</th><th>Client name</th><th>Veterinary name</th><th>Date</th><th>More info</th></tr>";
     
     //For each consult where that animal and owner participated
     foreach ($stmt as $row){
@@ -25,12 +25,11 @@
         echo "<th>".$row["ownerName"]."</th>";
         echo "<th>".$row["clientName"]."</th>";
         echo "<th>".$row["vetName"]."</th>";
+        echo "<th>".$row["date"]."</th>";
 
         //Put a reference to a URL on the date: when clicked, execute code on getConsult.php, passing parameters animal name and owner, vet and client VAT's and name's, and the date
-        echo "<th><a href='getConsult.php?animal=".$row["animalName"]."&owner=".$row["VAT_owner"]."&vet=".$row["VAT_vet"]."&client=".$row["VAT_client"]."&date=".$row["date"]."&clientName=".$row["clientName"]."&ownerName=".$row["ownerName"]."'>"
-        .$row["date"]."</th>";
-
-        echo "<th><a href='formbloodtest.php?animal=".$row["animalName"]."&owner=".$row["VAT_owner"]."&vet=".$row["VAT_vet"]."&client=".$row["VAT_client"]."&date=".$row["date"]."&clientName=".$row["clientName"]."&ownerName=".$row["ownerName"]."'> <button> Register blood test? </button></a></th></tr>";
+        echo "<th><a href='getConsult.php?animal=".$row["animalName"]."&owner=".$row["VAT_owner"]."&vet=".$row["VAT_vet"]."&client=".$row["VAT_client"]."&date=".$row["date"]."&clientName=".$row["clientName"]."&ownerName=".$row["ownerName"]."'>
+        <button> + </button></a></th></tr><br>";
 
         //Store owner name
         $ownerName = $row["ownerName"];
