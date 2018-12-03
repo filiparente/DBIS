@@ -1,6 +1,9 @@
 <?php
     include_once "conn.php";
     session_start();
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    } 
 ?>
 
 <!DOCTYPE html>
@@ -17,16 +20,19 @@
         <select id="VAT" name="VAT">
         <!--<option selected="selected">Client VAT:</option>-->
         <?php
-        $sql = 'select VAT from client;';
-        $stmt = $conn->prepare($sql);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        
-        while ($row = $result->fetch_assoc()) {
-            $code = $row["VAT"];
+        try{
+            $sql = 'select VAT from client;';
+            $result = $conn->query($sql);
+            
+            foreach($result as $row) {
+                    $code = $row["VAT"];
         ?>
-        <option name="Client VAT" value="<?php echo($code); ?>"><?php echo $code; ?></option>
+                <option name="VAT" value="<?php echo($code); ?>"><?php echo $code; ?></option>
         <?php
+            }
+        }catch(PDOException $e){
+            echo("ERROR Couldnt access client.");
+            echo('<br>');
         }
         ?>
         </select>
@@ -40,21 +46,14 @@
     </form>
     <br>
     <form login method="POST" action="consultNumber.php">
-        <label for="animalName">Animal name:</label>
+        <label for="animalName">Animal name*:</label>
         <input type="text" name="animalName" id="animalName">
-        <label for="ownerName"> Owner Name:</label>
+        <label for="ownerName"> Owner Name*:</label>
         <input type="text" name="ownerName" id="ownerName">
-        <label for="year">Year:</label>
+        <label for="year">Year*:</label>
         <input type="text" name="year" id="year">
-        <input type="submit" name="consultNumber" value="Number of consults">
-    </form>
-    <br>
-    <?php
-    //    if(isset($_SESSION["number"])){
-    //        echo "Number of consults with ".$_POST["animalName"]." in ".$_POST["year"].": ";
-    //        echo $_SESSION["number"];
-    //        unset($_SESSION["number"]);
-    //    }
-    ?>
+        <input type="submit" value="Number of consults">
+        <p> * - Required fields </p>
+    </form>    
 </body>
 </html>

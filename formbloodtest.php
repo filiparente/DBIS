@@ -19,15 +19,20 @@
         <label for="VAT_assist">VAT of the assistant:</label>
         <select name="VAT_assist">
         <?php
-            $sql = 'select VAT from assistant;';
-            $stmt = $conn->prepare($sql);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            
-            while ($row = $result->fetch_assoc()) {
-                $code = $row["VAT"];
-                echo("<option value=\"$code\">$code</option>");
+            try{
+                $sql = 'select VAT from assistant;';
+                $stmt = $conn->prepare($sql);
+                $stmt->execute();
+                
+                foreach($stmt as $row){
+                    $code = $row["VAT"];
+                    echo("<option value=\"$code\">$code</option>");
+                }
+            }catch(PDOException $e){
+                echo("ERROR Couldnt access assistant.");
+                echo('<br>');
             }
+            
             
         ?>    
         </select>
@@ -70,9 +75,7 @@
         <input type="submit" name="Regist blood test" value="Regist blood test">
         </form>
 
-        <form action="index.php">
-        <input type="submit" name="Go back" value="Go back to homepage">
-        </form>
+        <a href='index.php'> <button> Go back to homepage </button></a><br>
     </body> 
 </html>
 
