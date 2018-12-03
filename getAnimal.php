@@ -30,7 +30,7 @@
 
             //Put a reference to a URL on the date: when clicked, execute code on getConsult.php, passing parameters animal name and owner, vet and client VAT's and name's, and the date
             echo "<th><a href='getConsult.php?animal=".$row["animalName"]."&owner=".$row["VAT_owner"]."&vet=".$row["VAT_vet"]."&client=".$row["VAT_client"]."&date=".$row["date"]."&clientName=".$row["clientName"]."&ownerName=".$row["ownerName"]."'>
-            <button> + </button></a></th></tr>";
+            <button name='button1'> + </button></a></th></tr>";
 
             //Store owner name
             $ownerName = $row["ownerName"];
@@ -83,7 +83,7 @@
         <label for="P">P:</label>
         <input type="text" name="P" id="P">
         <br>
-        <label for="DiagnosticCodes">Diagnostic codes: (for multiple diagnosis use the following format: [nº diagnosis1+nºdiagnosis2+...] Ex.: 3+5+14)</label>
+        <label for="DiagnosticCodes">Diagnostic codes: (for multiple diagnosis use the following format: [n_diagnosis1;n_diagnosis2;...] Ex.: 3;5;4)</label>
         <input type="text" name="DiagnosticCodes" id="DiagnosticCodes"/>
         <br>
         <input type="submit" name="createConsult" value="Create consult">

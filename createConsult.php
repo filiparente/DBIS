@@ -87,7 +87,7 @@
 
         if(isset($_POST["DiagnosticCodes"]) && !empty($_POST["DiagnosticCodes"])){
             $diagnosis_str = $_POST["DiagnosticCodes"];
-            $diagnosis_array = explode("+",$diagnosis_str);
+            $diagnosis_array = explode(";",$diagnosis_str);
 
             
             // Begin transaction
