@@ -34,34 +34,6 @@ create table phone_number (
     foreign key (VAT) references person(VAT) on delete cascade
 );
 
-
-
--- TRIGGER 3 OPTION 1
-drop trigger if exists phone_number_check;
-DELIMITER $$
-create trigger phone_number_check before insert on phone_number
-for each row
-begin
-if new.phone in (select phone from phone_number) then signal sqlstate '45000' set message_text = "Sorry, there's already one individual stored in the database with the same phone number. Choose another one.";
-end if;
-end$$
-DELIMITER ;
-
--- TRIGGER OPTION 2
--- drop trigger if exists phone_number_check;
--- DELIMITER $$
--- create trigger phone_number_check before insert on phone_number
--- for each row
--- begin
--- if new.phone in (select phone from phone_number) then set new.phone = NULL;
--- end if;
--- end$$
--- DELIMITER ;
-
--- FOR TESTING PURPOSES:
--- insert into person values (138,"Mimi Grey","North Middle River Lene","Laufel","2000-004");
--- insert into phone_number values (138, 900000119);
-
 create table client (
     VAT int primary key,
     foreign key (VAT) references person(VAT) on delete cascade
@@ -223,6 +195,7 @@ create table produced_indicator (
     foreign key(indicator_name) references indicator(name)
 );
 
+
 --TRIGGERS AND PROCEDURE--
 
 
@@ -232,10 +205,10 @@ delimiter $$
 create trigger new_consult_birthday before insert on consult  
 for each row
 begin
-
   update animal a set a.age= YEAR(new.date_timestamp)-(a.birth_year-1) where a.name = new.name;
 end$$ 
 delimiter ;
+
 
 --TRIGGERS 2
 drop trigger if exists vetdoc_assist_check; 
@@ -258,19 +231,28 @@ end if;
 end$$ 
 DELIMITER ;
 
---STORED PROCEDURE
 
+-- TRIGGER 3 
+drop trigger if exists phone_number_check;
+DELIMITER $$
+create trigger phone_number_check before insert on phone_number
+for each row
+begin
+if new.phone in (select phone from phone_number) then signal sqlstate '45000' set message_text = "Sorry, there's already one individual stored in the database with the same phone number. Choose another one.";
+end if;
+end$$
+DELIMITER ;
+
+
+--STORED PROCEDURE
 drop PROCEDURE if exists refval_mili2centi;
 DELIMITER $$ 
 create PROCEDURE refval_mili2centi ()
-
 begin
-  
   update indicator 
   set reference_value= reference_value/10 where indicator.unit="miligrams";
   update produced_indicator
   set produced_indicator.value=produced_indicator.value/10 where produced_indicator.indicator_name in (select i.name from indicator i where i.unit="miligrams");
-
 end$$ 
 DELIMITER ;
 
