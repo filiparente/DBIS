@@ -46,6 +46,8 @@
             echo('<br>');
             $conn->rollBack();
             $norollback = FALSE;
+
+            echo "<a href='index.php'> <button> Go back to homepage </button></a><br>";
         }
             
         
@@ -68,6 +70,8 @@
                 echo('<br>');
                 $conn->rollBack();
                 $norollback = FALSE;
+
+                echo "<a href='index.php'> <button> Go back to homepage </button></a><br>";
             }
 
             // SECOND insert into performed
@@ -85,6 +89,8 @@
                 echo('<br>');
                 $conn->rollBack();
                 $norollback = FALSE;
+
+                echo "<a href='index.php'> <button> Go back to homepage </button></a><br>";
             }
 
 
@@ -107,6 +113,8 @@
                 echo('<br>');
                 $conn->rollBack();
                 $norollback = FALSE;
+
+                echo "<a href='index.php'> <button> Go back to homepage </button></a><br>";
             }
 
             //FINALLY insert into produced_indicators the indicators filled by the doctor in the form
@@ -161,6 +169,8 @@
             $conn->rollBack();
             $norollback = FALSE;
             $flag_indicators = FALSE;
+
+            echo "<a href='index.php'> <button> Go back to homepage </button></a><br>";
         }
 
         return array($norollback, $flag_indicators);
