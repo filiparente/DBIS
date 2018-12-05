@@ -15,7 +15,7 @@
     <title>SIBD - Veterinary Hospital</title>
 </head>
 <body>
-    <form login method="POST" action="query1.php">
+    <form login method="GET" action="query1.php">
         <label for="VAT">Client VAT*:</label>
         <select id="VAT" name="VAT">
         <!--<option selected="selected">Client VAT:</option>-->
