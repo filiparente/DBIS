@@ -10,13 +10,13 @@
         $conn->beginTransaction();
 
         // Get variables
-        $animalName = $_GET["animalName"];
-        $clientName = $_GET["clientName"];
-        $ownerName = $_GET["ownerName"];
-        $VAT_owner = $_GET["VAT_owner"];
-        $VAT_vet = $_GET["VAT_vet"];
-        $VAT_client = $_GET["VAT_client"];
-        $date = $_GET["date"];
+        $animalName = $_POST["animalName"];
+        $clientName = $_POST["clientName"];
+        $ownerName = $_POST["ownerName"];
+        $VAT_owner = $_POST["VAT_owner"];
+        $VAT_vet = $_POST["VAT_vet"];
+        $VAT_client = $_POST["VAT_client"];
+        $date = $_POST["date"];
 
         $indicators_array = ["bloodpH", "hemoglobin","cholesterol", "totalProtein", "creatinine", "BUN", "glucose"];
 
