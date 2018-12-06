@@ -30,16 +30,18 @@ if($stmt->num_rows == 0){
 // Start the session
 session_start();
 
-if(!isset($_POST["animalName"]) || empty($_POST["animalName"]) || !isset($_POST["animalOwner"]) || empty($_POST["animalOwner"]) || !isset($_POST["VAT"]) || empty($_POST["VAT"])){
+if(!isset($_GET["animalName"]) || empty($_GET["animalName"]) || !isset($_GET["animalOwner"]) || empty($_GET["animalOwner"]) || !isset($_GET["VAT"]) || empty($_GET["VAT"])){
     echo('ERROR -  All fields are mandatory.');
     echo('<br>');
     echo "<a href='index.php'> <button> Go back to homepage </button></a><br>";
 }else{
 
     //Get the data required in homepage (animal name, owner name and client VAT)
-    $animalName = $_POST["animalName"];
-    $ownerName = $_POST["animalOwner"];
-    $VAT = $_POST["VAT"];
+    if(isset($_GET["animalName"])){
+        $_SESSION["animalName"] = $_GET["animalName"];
+        $_SESSION["ownerName"] = $_GET["animalOwner"];
+        $_SESSION["VAT"] = $_GET["VAT"];		
+    }
 
     // Store client VAT in the session (to be used in getAnimal.php)
     $_SESSION["clientVAT"] = $VAT;
@@ -66,7 +68,7 @@ if(!isset($_POST["animalName"]) || empty($_POST["animalName"]) || !isset($_POST[
 =======
     try{
         $stmt = $conn->prepare("select * from client where VAT=?;");
-        $stmt->bindParam(1, $VAT, PDO::PARAM_INT);
+        $stmt->bindParam(1, $_SESSION["VAT"], PDO::PARAM_INT);
         //$sth->bindParam(2, $colour, PDO::PARAM_STR, 12);
 >>>>>>> master
         $stmt->execute();
@@ -78,7 +80,7 @@ if(!isset($_POST["animalName"]) || empty($_POST["animalName"]) || !isset($_POST[
             //Otherwise, request to the database the person's information using the corresponding VAT number
             try{
                 $stmt = $conn->prepare("select * from person where VAT=?;");
-                $stmt->bindParam(1, $VAT, PDO::PARAM_INT);
+                $stmt->bindParam(1, $_SESSION["VAT"], PDO::PARAM_INT);
                 $stmt->execute();
 
                 //Display client's info in a table
@@ -107,8 +109,8 @@ if(!isset($_POST["animalName"]) || empty($_POST["animalName"]) || !isset($_POST[
                 $sql = "select a.name animalName, p.name personName, a.species_name speciesName from animal a
                 join person p on a.name=? and a.VAT=p.VAT and p.name like ?;";
                 $stmt = $conn->prepare($sql);
-                $keyword = "%".$ownerName."%";
-                $stmt->bindParam(1, $animalName, PDO::PARAM_STR);
+                $keyword = "%".$_SESSION["ownerName"]."%";
+                $stmt->bindParam(1, $_SESSION["animalName"], PDO::PARAM_STR);
                 $stmt->bindParam(2, $keyword, PDO::PARAM_STR);
                 $stmt->execute();
 
