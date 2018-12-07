@@ -213,7 +213,7 @@ delimiter ;
 --TRIGGERS 2
 drop trigger if exists vetdoc_assist_check; 
 DELIMITER $$ 
-create trigger vetdoc_assist_check before insert on assistant 
+create trigger vetdoc_assist_check before insert on veterinary 
 for each row 
 begin 
 if new.VAT in (select VAT from assistant) then signal sqlstate '45000' set message_text = "Sorry, there's already an assistant registered in this hospital with the same information"; 
@@ -223,7 +223,7 @@ DELIMITER ;
 
 drop trigger if exists assist_vetdoc_check; 
 DELIMITER $$ 
-create trigger assist_vetdoc_check before insert on veterinary 
+create trigger assist_vetdoc_check before insert on assistant 
 for each row 
 begin 
 if new.VAT in (select VAT from veterinary) then signal sqlstate '45000' set message_text = "Sorry, there's already a Veterinary Doctor registered in this hospital with the same information"; 
