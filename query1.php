@@ -1,32 +1,6 @@
 <?php
 include_once "conn.php";
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-//Get the data required in homepage (animal name, owner name and client VAT)
-$animalName = $_POST["animalName"];
-$ownerName = $_POST["animalOwner"];
-$VAT = $_POST["VAT"];
-
-//CHECK IF CLIENT kmnEXISTS
-
-//Prepare sql query to get, from the database, the client with the VAT obtained from the homepage
-$stmt = $conn->prepare("select * from client where VAT=?;");
-$stmt->bind_param("d",$VAT);
-$stmt->execute();
-$stmt->store_result();
-
-//If the result has no rows, it means that the VAT is not in the database, so the client is not registered
-if($stmt->num_rows == 0){
-    echo "VAT not registered as client";
-} else {
-
-    //Otherwise, request to the database the person's information using the corresponding VAT number
-    $stmt = $conn->prepare("select * from person where VAT=?;");
-=======
-=======
-
->>>>>>> master
 // Start the session
 session_start();
 
@@ -49,28 +23,10 @@ if(!isset($_GET["animalName"]) || empty($_GET["animalName"]) || !isset($_GET["an
     //CHECK IF CLIENT EXISTS
 
     //Prepare sql query to get, from the database, the client with the VAT obtained from the homepage
-<<<<<<< HEAD
-    $stmt = $conn->prepare("select * from client where VAT=?;");
->>>>>>> master
-    $stmt->bind_param("d",$VAT);
-    $stmt->execute();
-    $stmt->store_result();
-
-    //If the result has no rows, it means that the VAT is not in the database, so the client is not registered
-    if($stmt->num_rows == 0){
-        echo "VAT not registered as client";
-
-    } else {
-
-        //Otherwise, request to the database the person's information using the corresponding VAT number
-        $stmt = $conn->prepare("select * from person where VAT=?;");
-        $stmt->bind_param("d",$VAT);
-=======
     try{
         $stmt = $conn->prepare("select * from client where VAT=?;");
         $stmt->bindParam(1, $_SESSION["VAT"], PDO::PARAM_INT);
-        //$sth->bindParam(2, $colour, PDO::PARAM_STR, 12);
->>>>>>> master
+ 
         $stmt->execute();
 
         //If the result has no rows, it means that the VAT is not in the database, so the client is not registered
