@@ -1,7 +1,7 @@
 <?php
     include_once "conn.php";
 
-    if((!isset($_POST["bloodpH"]) || empty($_POST["bloodpH"])) && (!isset($_POST["hemoglobin"]) || empty($_POST["hemoglobin"])) && (!isset($_POST["cholesterol"]) || empty($_POST["cholesterol"])) && (!isset($_POST["totalProtein"]) || empty($_POST["totalProtein"])) && (!isset($_POST["BUN"]) || empty($_POST["BUN"])) && (!isset($_POST["glucose"]) || empty($_POST["glucose"])) && (!isset($_POST["creatinine"]) || empty($_POST["creatinine"]))){
+    if(empty($_POST["blood pH"]) && empty($_POST["hemoglobin"]) && empty($_POST["cholesterol"]) && empty($_POST["total protein"]) && empty($_POST["BUN"]) && empty($_POST["Glucose"]) && empty($_POST["creatinine"])){
         echo('ERROR No indicator filled in.');
         echo('<br>');
     }else{
