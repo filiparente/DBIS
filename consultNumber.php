@@ -16,7 +16,7 @@ if((!isset($_POST["animalName"]) || empty($_POST["animalName"])) || (!isset($_PO
         $stmt->execute();
     }catch(PDOException $e)
     {
-        echo("ERROR couldnt acess person.");
+        echo("ERROR couldnt access person." . $e->getMessage());
         echo('<br>');
     }
 
@@ -57,7 +57,7 @@ function consultNumber($animalName, $VAT_owner, $year, $conn) {
         }
     }catch(PDOException $e)
     {
-        echo("ERROR Couldnt access consults.");
+        echo("ERROR Couldnt access consults." . $e->getMessage());
         echo('<br>');
 
         return 0;

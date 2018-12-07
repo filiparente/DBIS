@@ -31,7 +31,7 @@
         <?php
             }
         }catch(PDOException $e){
-            echo("ERROR Couldnt access client.");
+            echo("ERROR Couldnt access client." . $e->getMessage());
             echo('<br>');
         }
         ?>

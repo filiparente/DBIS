@@ -28,7 +28,7 @@
                 $ownerVAT = $row["VAT"];
             }
         }catch(PDOException $e){
-            echo("ERROR Couldnt access person.");
+            echo("ERROR Couldnt access person." . $e->getMessage());
             echo('<br>');
         }
         
@@ -77,7 +77,7 @@
             echo('<br>');
 
         }catch(PDOException $e){
-            echo('ERROR Consult was not registered. Execute() failed: ' . htmlspecialchars($stmt->error));
+            echo('ERROR Consult was not registered. Execute() failed: ' . $e->getMessage());
             echo('<br>');
         }
         
@@ -106,7 +106,7 @@
                     $stmt->bindParam(4, $date, PDO::PARAM_STR);
                     $stmt->execute();
                 }catch(PDOException $e){
-                    echo("ERROR Consult diagnosis was not registered.");
+                    echo("ERROR Consult diagnosis was not registered." . $e->getMessage());
                     echo('<br>');
                     $conn->rollBack();
                     $norollback = FALSE;

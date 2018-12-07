@@ -15,16 +15,15 @@ if((!isset($_POST["registerAnimalColour"]) || empty($_POST["registerAnimalColour
     $curr_year = date("Y");
 
     //Get the data
-    $registerAnimalName = $_SESSION["registerAnimalName"];
-    $VAT = $_SESSION["registerVAT"];
+    $registerAnimalName = $_SESSION["animalName"];
+    $VAT = $_SESSION["clientVAT"];
     $registerAnimalColour = $_POST["registerAnimalColour"];
     $registerAnimalSpecies = $_POST["registerAnimalSpecies"];
     $registerAnimalGender = $_POST["registerAnimalGender"];
     $registerAnimalBirth = $_POST["registerAnimalBirth"];
 
-
-
     $registerAnimalAge = $curr_year-$registerAnimalBirth;
+
     try{
         $sql = "INSERT INTO animal (name, VAT, species_name, colour, gender, birth_year, age) VALUES (?,?,?,?,?,?,?);";
         $stmt = $conn->prepare($sql);
@@ -38,8 +37,9 @@ if((!isset($_POST["registerAnimalColour"]) || empty($_POST["registerAnimalColour
         $stmt->execute();
 
         echo('Animal registered in the database successfully.');
+        echo('<br>');
     }catch(PDOException $e){
-        echo('ERROR animal was not registered. Execute() failed: ' . htmlspecialchars($stmt->error));
+        echo('ERROR animal was not registered. Execute() failed: ' . $e->getMessage());
         echo('<br>');
     }
         

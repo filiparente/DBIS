@@ -19,7 +19,7 @@ if(!isset($_GET["animalName"]) || empty($_GET["animalName"]) || !isset($_GET["an
     }
 
     // Store client VAT in the session (to be used in getAnimal.php)
-    $_SESSION["clientVAT"] = $VAT;
+    $_SESSION["clientVAT"] = $_GET["VAT"];
 
     //CHECK IF CLIENT EXISTS
 
@@ -57,7 +57,7 @@ if(!isset($_GET["animalName"]) || empty($_GET["animalName"]) || !isset($_GET["an
                 }
                 echo "</table><br><br><br>";
             }catch(PDOException $e){
-                echo('ERROR Couldnt access person. Execute() failed: ' . htmlspecialchars($stmt->error));
+                echo('ERROR Couldnt access person. Execute() failed: ' . $e->getMessage());
                 echo('<br>');
             }
 
@@ -78,27 +78,27 @@ if(!isset($_GET["animalName"]) || empty($_GET["animalName"]) || !isset($_GET["an
                     //Option to register a new animal
                     echo "Regist animal: <br>";
 
-                    // Set session variables
-                    $_SESSION["registerAnimalName"] = $animalName;
-                    $_SESSION["registerVAT"] = $VAT;
-
-
                     //Display form to register animal with the client as the owner and go to registanimal.php
-                    echo '<form action="registanimal.php" method="POST">
-                    <label for="registerAnimalColour">Animal colour*</label>
-                    <input type="text" name="registerAnimalColour"><br>
-                    <label for="registerAnimalSpecies">Animal species*</label>
-                    <input type="text" name="registerAnimalSpecies"><br>
-                    <label for="registerAnimalGender">Animal gender*</label>
-                    <input type="text" name="registerAnimalGender"><br>
-                    <label for="registerAnimalBirth">Animal birth year*</label>
-                    <input type="text" name="registerAnimalBirth"><br>
-                    
-                    <button formaction="registanimal.php">Regist animal</button>
-                    <button formaction="index.php">Go back to homepage</button>
-                    <p> * - Required fields</p>
-                    ';        
-
+                    ?>
+                    <html>
+                        <body>
+                            <?php echo'<form login method="POST" action="registanimal.php"'?>
+                            <label for='registerAnimalColour'>Animal colour*</label>
+                            <input type='text' name='registerAnimalColour'><br>
+                            <label for='registerAnimalSpecies'>Animal species*</label>
+                            <input type='text' name='registerAnimalSpecies'><br>
+                            <label for='registerAnimalGender'>Animal gender*</label>
+                            <input type='text' name='registerAnimalGender'><br>
+                            <label for='registerAnimalBirth'>Animal birth year*</label>
+                            <input type='text' name='registerAnimalBirth'><br>
+                            
+                            <!--<button formaction="registanimal.php">Regist animal</button>-->
+                            <input type='submit' name='Regist animal' value='Regist animal'>
+                            <button formaction='index.php'>Go back to homepage</button>
+                            <p> * - Required fields</p>
+                        </body> 
+                    </html>        
+                <?php
 
                 } else {
                     //Display animal name and owner name (or portion of)
@@ -120,12 +120,12 @@ if(!isset($_GET["animalName"]) || empty($_GET["animalName"]) || !isset($_GET["an
                     echo "<a href='index.php'> <button> Go back to homepage </button></a><br>";  
                 }
             }catch(PDOException $e){
-                echo('ERROR Couldnt query the database for animal-owner matches. Execute() failed: ' . htmlspecialchars($stmt->error));
+                echo('ERROR Couldnt query the database for animal-owner matches. Execute() failed: ' . $e->getMessage());
                 echo('<br>');
             }
         }
     }catch(PDOException $e){
-        echo('ERROR Couldnt access client. Execute() failed: ' . htmlspecialchars($stmt->error));
+        echo('ERROR Couldnt access client. Execute() failed: ' . $e->getMessage());
         echo('<br>');
     }
 }
