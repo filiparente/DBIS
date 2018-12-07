@@ -1,7 +1,7 @@
 <?php
     include_once "conn.php";
-
-    if(empty($_POST["blood pH"]) && empty($_POST["hemoglobin"]) && empty($_POST["cholesterol"]) && empty($_POST["total protein"]) && empty($_POST["BUN"]) && empty($_POST["Glucose"]) && empty($_POST["creatinine"])){
+    
+    if(empty($_POST["bloodpH"]) && empty($_POST["hemoglobin"]) && empty($_POST["cholesterol"]) && empty($_POST["totalprotein"]) && empty($_POST["BUN"]) && empty($_POST["Glucose"]) && empty($_POST["creatinine"])){
         echo('ERROR No indicator filled in.');
         echo('<br>');
     }else{
@@ -18,7 +18,7 @@
         $VAT_client = $_GET["VAT_client"];
         $date = $_GET["date"];
 
-        $indicators_array = ["blood pH", "hemoglobin","cholesterol", "total protein", "creatinine", "BUN", "Glucose"];
+        $indicators_array = ["bloodpH", "hemoglobin","cholesterol", "totalprotein", "creatinine", "BUN", "Glucose"];
 
         // Flags
         $norollback = TRUE;
@@ -120,6 +120,8 @@
             //FINALLY insert into produced_indicators the indicators filled by the doctor in the form
             foreach ($indicators_array as $indicator_name){
                 if(isset($_POST[$indicator_name]) && !empty($_POST[$indicator_name])){
+                    if ($indicator_name == "bloodpH"){ $indicator_name = "blood pH";}
+                    if ($indicator_name == "totalprotein"){ $indicator_name = "total protein";}
                     list($norollback, $flag_indicators) = register_indicator($norollback,$flag_indicators, $conn, $animalName, $VAT_owner, $date, $num, $indicator_name);
                 }
 
