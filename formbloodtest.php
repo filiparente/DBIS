@@ -29,7 +29,7 @@
                     echo("<option value=\"$code\">$code</option>");
                 }
             }catch(PDOException $e){
-                echo("ERROR Couldnt access assistant.");
+                echo("ERROR Couldnt access assistant." . $e->getMessage());
                 echo('<br>');
             }
             

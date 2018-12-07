@@ -18,7 +18,7 @@
         }
         echo "</table><br><br><br>";
     }catch(PDOException $e){
-        echo('ERROR Couldnt access animal. Execute() failed: ' . htmlspecialchars($stmt->error));
+        echo('ERROR Couldnt access animal. Execute() failed: ' . $e->getMessage());
         echo('<br>');
     }
 
@@ -44,7 +44,7 @@
         }
         echo "</table><br><br><br>";
     }catch(PDOException $e){
-        echo('ERROR Couldnt access the consults from that animal. Execute() failed: ' . htmlspecialchars($stmt->error));
+        echo('ERROR Couldnt access the consults from that animal. Execute() failed: ' . $e->getMessage());
         echo('<br>');
     }
 
@@ -67,7 +67,7 @@
             echo "No diagnosis for this consult.<br>";
         }
     }catch(PDOException $e){
-        echo('ERROR Couldnt access the consult diagnosis from that animal. Execute() failed: ' . htmlspecialchars($stmt->error));
+        echo('ERROR Couldnt access the consult diagnosis from that animal. Execute() failed: ' . $e->getMessage());
         echo('<br>');
     }
 
@@ -94,7 +94,7 @@
             echo "No medications were prescribed for this consult.<br>";
         }
     }catch(PDOException $e){
-        echo('ERROR Couldnt access prescribed medications from that animal. Execute() failed: ' . htmlspecialchars($stmt->error));
+        echo('ERROR Couldnt access prescribed medications from that animal. Execute() failed: ' . $e->getMessage());
         echo('<br>');
     }
 

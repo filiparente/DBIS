@@ -10,13 +10,13 @@
         $conn->beginTransaction();
 
         // Get variables
-        $animalName = $_POST["animalName"];
-        $clientName = $_POST["clientName"];
-        $ownerName = $_POST["ownerName"];
-        $VAT_owner = $_POST["VAT_owner"];
-        $VAT_vet = $_POST["VAT_vet"];
-        $VAT_client = $_POST["VAT_client"];
-        $date = $_POST["date"];
+        $animalName = $_GET["animalName"];
+        $clientName = $_GET["clientName"];
+        $ownerName = $_GET["ownerName"];
+        $VAT_owner = $_GET["VAT_owner"];
+        $VAT_vet = $_GET["VAT_vet"];
+        $VAT_client = $_GET["VAT_client"];
+        $date = $_GET["date"];
 
         $indicators_array = ["bloodpH", "hemoglobin","cholesterol", "totalProtein", "creatinine", "BUN", "glucose"];
 
@@ -42,7 +42,7 @@
                 }
             }
         }catch(PDOException $e){
-            echo('ERROR couldnt access procedures num');
+            echo('ERROR couldnt access procedures num' . $e->getMessage());
             echo('<br>');
             $conn->rollBack();
             $norollback = FALSE;
@@ -66,7 +66,7 @@
                 $stmt->execute();
 
             }catch(PDOException $e){
-                echo('ERROR procedure was not registered.');
+                echo('ERROR procedure was not registered.' . $e->getMessage());
                 echo('<br>');
                 $conn->rollBack();
                 $norollback = FALSE;
@@ -85,7 +85,7 @@
                 $stmt->bindParam(4, $num, PDO::PARAM_INT);
                 $stmt->bindParam(5, $VAT_assist, PDO::PARAM_INT);
             }catch(PDOException $e){
-                echo('ERROR performed was not registered.');
+                echo('ERROR performed was not registered.' . $e->getMessage());
                 echo('<br>');
                 $conn->rollBack();
                 $norollback = FALSE;
@@ -109,7 +109,7 @@
                 
                 $stmt->execute();
             }catch(PDOException $e){
-                echo('ERROR test_procedure was not registered.');
+                echo('ERROR test_procedure was not registered.' . $e->getMessage());
                 echo('<br>');
                 $conn->rollBack();
                 $norollback = FALSE;
@@ -164,7 +164,7 @@
             $stmt->execute();
             $flag_indicators = TRUE;
         }catch(PDOException $e){
-            echo("ERROR '".$indicator_name."' indicator was not registered");
+            echo("ERROR '".$indicator_name."' indicator was not registered" . $e->getMessage());
             echo('<br>');
             $conn->rollBack();
             $norollback = FALSE;

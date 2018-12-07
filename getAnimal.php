@@ -37,7 +37,7 @@
         }
         echo "</table><br><br>";
     }catch(PDOException $e){
-        echo("ERROR Couldnt query the database for animal-owner matches.");
+        echo("ERROR Couldnt query the database for animal-owner matches." . $e->getMessage());
         echo('<br>');
     }
 
@@ -61,7 +61,7 @@
                     echo("<option value=\"$code\">$code</option>");
                 }
             }catch(PDOException $e){
-                echo("ERROR Couldnt access veterinary.");
+                echo("ERROR Couldnt access veterinary." . $e->getMessage());
                 echo('<br>');
             }
             
@@ -107,7 +107,7 @@
         }
         echo "</table><br><br><br>";
     }catch(PDOException $e){
-        echo("ERROR Couldnt access diagnosis_code.");
+        echo("ERROR Couldnt access diagnosis_code." . $e->getMessage());
         echo('<br>');
     }
 
