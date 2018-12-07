@@ -51,8 +51,8 @@
         <br>
         -->
         <br>
-        <label for="bloodpH">Blood pH:</label>
-        <input type="number" name="bloodpH" id="bloodpH" min="0" max="12" step="any">
+        <label for="blood pH">Blood pH:</label>
+        <input type="number" name="blood pH" id="blood pH" min="0" max="12" step="any">
         <br>
         <label for="hemoglobin">Hemoglobin [mg/dl]:</label>
         <input type="number" name="hemoglobin" id="hemoglobin" min="0" max="30" step="any">
@@ -60,8 +60,8 @@
         <label for="cholesterol">Cholesterol [mg/dl]:</label>
         <input type="number" name="cholesterol" id="cholesterol" min="40" max="400" step="any">
         <br>
-        <label for="totalProtein">Total protein [g]:</label>
-        <input type="number" name="totalProtein" id="totalProtein" min="0" max="10" step="any">
+        <label for="total protein">Total protein [g]:</label>
+        <input type="number" name="total protein" id="total protein" min="0" max="10" step="any">
         <br>
         <label for="creatinine">Creatinine [mg/dl]:</label>
         <input type="number" name="creatinine" id="creatinine" min="0" max="2" step="any">
@@ -69,8 +69,8 @@
         <label for="BUN">BUN [mg/dl]:</label>
         <input type="number" name="BUN" id="BUN" min="0" max="50" step="any">
         <br>
-        <label for="glucose">Glucose [mg/dl]:</label>
-        <input type="number" name="glucose" id="glucose" min="20" max="200" step="any">
+        <label for="Glucose">Glucose [mg/dl]:</label>
+        <input type="number" name=Glucose" id="Glucose" min="20" max="200" step="any">
         <br>
         <input type="submit" name="Regist blood test" value="Regist blood test">
         </form>

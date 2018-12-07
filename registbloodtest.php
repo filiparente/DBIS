@@ -18,7 +18,7 @@
         $VAT_client = $_GET["VAT_client"];
         $date = $_GET["date"];
 
-        $indicators_array = ["bloodpH", "hemoglobin","cholesterol", "totalProtein", "creatinine", "BUN", "glucose"];
+        $indicators_array = ["blood pH", "hemoglobin","cholesterol", "total protein", "creatinine", "BUN", "Glucose"];
 
         // Flags
         $norollback = TRUE;
